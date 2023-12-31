@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.2",
-    "prisma": "^5.7.1"
+    "prisma": "^5.7.1",
+    "supertest": "^6.3.3"
   }
 }
