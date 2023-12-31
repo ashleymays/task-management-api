@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model project {
+  id                Int      @id @default(autoincrement())
+  name              String
+  description       String?
+  creation_date     DateTime @db.Timestamptz(6)
+  modification_date DateTime @db.Timestamptz(6)
+  task              task[]
+}
+
+model task {
+  id                        Int         @id @default(autoincrement())
+  project_id                Int         @default(autoincrement())
+  name                      String
+  description               String?
+  start_date                DateTime?   @db.Timestamptz(6)
+  estimated_completion_date DateTime?   @db.Timestamptz(6)
+  actual_completion_date    DateTime?   @db.Timestamptz(6)
+  is_delayed                Boolean?
+  status_id                 Int         @default(autoincrement())
+  creation_date             DateTime    @db.Timestamptz(6)
+  modification_date         DateTime    @db.Timestamptz(6)
+  project                   project     @relation(fields: [project_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  task_status               task_status @relation(fields: [status_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model task_status {
+  id         Int    @id @default(autoincrement())
+  definition String @db.VarChar(24)
+  task       task[]
+}
