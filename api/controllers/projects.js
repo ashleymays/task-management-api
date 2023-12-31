@@ -39,7 +39,7 @@ async function addProject(req, res) {
   return res.sendStatus(201);
 }
 
-async function updateProjectyId(req, res) {
+async function updateProjectById(req, res) {
   const { projectId } = req.params;
   const { name, description = "" } = req.body;
   const now = new Date().toJSON();
@@ -74,6 +74,6 @@ module.exports = {
   getAllProjects: catchAsync(getAllProjects),
   getProjectById: catchAsync(getProjectById),
   addProject: catchAsync(addProject),
-  updateProjectyId: catchAsync(updateProjectyId),
+  updateProjectById: catchAsync(updateProjectById),
   deleteProjectById: catchAsync(deleteProjectById),
 };
