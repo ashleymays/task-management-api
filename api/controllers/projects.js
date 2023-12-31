@@ -1,7 +1,7 @@
 const prisma = require("../db");
 const { catchAsync } = require("../utils");
 
-async function getAllProjects(req, res) {
+const getAllProjects = catchAsync(async (req, res) => {
   const projects = await prisma.project.findMany({
     orderBy: {
       modification_date: "desc",
@@ -9,9 +9,9 @@ async function getAllProjects(req, res) {
   });
 
   res.status(200).json(projects);
-}
+})
 
-async function getProjectById(req, res) {
+const getProjectById = catchAsync(async (req, res) => {
   const { projectId } = req.params;
 
   const project = await prisma.project.findUnique({
@@ -21,9 +21,9 @@ async function getProjectById(req, res) {
   });
 
   res.status(200).json(project);
-}
+})
 
-async function addProject(req, res) {
+const addProject = catchAsync(async (req, res) => {
   const { name, description = "" } = req.body;
   const now = new Date().toJSON();
 
@@ -37,9 +37,9 @@ async function addProject(req, res) {
   });
 
   return res.sendStatus(201);
-}
+})
 
-async function updateProjectById(req, res) {
+const updateProjectById = catchAsync(async (req, res) => {
   const { projectId } = req.params;
   const { name, description = "" } = req.body;
   const now = new Date().toJSON();
@@ -56,9 +56,9 @@ async function updateProjectById(req, res) {
   });
 
   res.sendStatus(200);
-}
+})
 
-async function deleteProjectById(req, res) {
+const deleteProjectById = catchAsync(async (req, res) => {
   const { projectId } = req.params;
 
   await prisma.project.delete({
@@ -68,12 +68,12 @@ async function deleteProjectById(req, res) {
   });
 
   res.sendStatus(204);
-}
+})
 
 module.exports = {
-  getAllProjects: catchAsync(getAllProjects),
-  getProjectById: catchAsync(getProjectById),
-  addProject: catchAsync(addProject),
-  updateProjectById: catchAsync(updateProjectById),
-  deleteProjectById: catchAsync(deleteProjectById),
+  getAllProjects,
+  getProjectById,
+  addProject,
+  updateProjectById,
+  deleteProjectById,
 };

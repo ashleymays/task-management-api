@@ -1,6 +1,6 @@
 const projects = require("./controllers/projects");
 
-function attachRoutes(app) {
+const attachRoutes = (app) => {
   app.get("/projects", projects.getAllProjects);
   app.get("/projects/:projectId", projects.getProjectById);
   app.post("/projects", projects.addProject);
