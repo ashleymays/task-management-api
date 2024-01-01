@@ -62,18 +62,13 @@ const updateTask = catchAsyncErrors(async (req, res) => {
   const { taskId } = req.params;
   const newValues = req.body;
 
-  // TODO: Fix this - the output is incorrect after more than one request for the same task.
-  const isDelayed = ({ estCompletionDate }) => {
-    return new Date(estCompletionDate) < new Date();
-  };
-
   await prisma.task.update({
     where: {
       id: Number(taskId),
     },
     data: {
       ...newValues,
-      isDelayed: isDelayed(newValues),
+      isDelayed,
     },
   });
 
