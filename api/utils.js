@@ -1,11 +1,11 @@
-const catchAsync = (asyncFn) => {
+const catchAsyncErrors = (asyncFunction) => {
   return async (req, res, next) => {
     try {
-      return await asyncFn(req, res);
+      return await asyncFunction(req, res);
     } catch (error) {
       next(error);
     }
-  }
-}
+  };
+};
 
-module.exports = { catchAsync };
+module.exports = { catchAsyncErrors };

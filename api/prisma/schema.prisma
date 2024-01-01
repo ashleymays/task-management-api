@@ -8,32 +8,34 @@ datasource db {
 }
 
 model project {
-  id                Int      @id @default(autoincrement())
-  name              String
-  description       String?
-  creation_date     DateTime @db.Timestamptz(6)
-  modification_date DateTime @db.Timestamptz(6)
-  task              task[]
+  id               Int      @id @default(autoincrement())
+  name             String
+  description      String?
+  creationDate     DateTime @default(now()) @map("creation_date") @db.Timestamptz(6)
+  modificationDate DateTime @updatedAt @map("modification_date") @db.Timestamptz(6)
+  task             task[]
 }
 
 model task {
-  id                        Int         @id @default(autoincrement())
-  project_id                Int         @default(autoincrement())
-  name                      String
-  description               String?
-  start_date                DateTime?   @db.Timestamptz(6)
-  estimated_completion_date DateTime?   @db.Timestamptz(6)
-  actual_completion_date    DateTime?   @db.Timestamptz(6)
-  is_delayed                Boolean?
-  status_id                 Int         @default(autoincrement())
-  creation_date             DateTime    @db.Timestamptz(6)
-  modification_date         DateTime    @db.Timestamptz(6)
-  project                   project     @relation(fields: [project_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  task_status               task_status @relation(fields: [status_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id                   Int        @id @default(autoincrement())
+  projectId            Int        @default(autoincrement()) @map("project_id")
+  name                 String
+  description          String?
+  startDate            DateTime?  @map("start_date") @db.Timestamptz(6)
+  estCompletionDate    DateTime?  @map("estimated_completion_date") @db.Timestamptz(6)
+  actualCompletionDate DateTime?  @map("actual_completion_date") @db.Timestamptz(6)
+  isDelayed            Boolean?   @default(false) @map("is_delayed")
+  statusId             Int        @map("status_id")
+  creationDate         DateTime   @default(now()) @map("creation_date") @db.Timestamptz(6)
+  modificationDate     DateTime   @updatedAt @map("modification_date") @db.Timestamptz(6)
+  project              project    @relation(fields: [projectId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  taskStatus           taskStatus @relation(fields: [statusId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model task_status {
+model taskStatus {
   id         Int    @id @default(autoincrement())
   definition String @db.VarChar(24)
   task       task[]
+
+  @@map("task_status")
 }

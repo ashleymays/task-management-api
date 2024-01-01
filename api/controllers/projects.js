@@ -1,17 +1,18 @@
 const prisma = require("../db");
-const { catchAsync } = require("../utils");
+const { catchAsyncErrors } = require("../utils");
+const { STATUSES } = require("../constants");
 
-const getAllProjects = catchAsync(async (req, res) => {
+const getAllProjects = catchAsyncErrors(async (req, res) => {
   const projects = await prisma.project.findMany({
     orderBy: {
-      modification_date: "desc",
+      modificationDate: "desc",
     },
   });
 
-  res.status(200).json(projects);
-})
+  res.status(STATUSES.OK).json(projects);
+});
 
-const getProjectById = catchAsync(async (req, res) => {
+const getProject = catchAsyncErrors(async (req, res) => {
   const { projectId } = req.params;
 
   const project = await prisma.project.findUnique({
@@ -20,45 +21,40 @@ const getProjectById = catchAsync(async (req, res) => {
     },
   });
 
-  res.status(200).json(project);
-})
+  res.status(STATUSES.OK).json(project);
+});
 
-const addProject = catchAsync(async (req, res) => {
+const addProject = catchAsyncErrors(async (req, res) => {
   const { name, description = "" } = req.body;
-  const now = new Date().toJSON();
 
   await prisma.project.create({
     data: {
-      name: String(name),
-      description: String(description),
-      creation_date: now,
-      modification_date: now,
+      name,
+      description,
     },
   });
 
-  return res.sendStatus(201);
-})
+  res.sendStatus(STATUSES.CREATED);
+});
 
-const updateProjectById = catchAsync(async (req, res) => {
+const updateProject = catchAsyncErrors(async (req, res) => {
   const { projectId } = req.params;
   const { name, description = "" } = req.body;
-  const now = new Date().toJSON();
 
   await prisma.project.update({
     where: {
       id: Number(projectId),
     },
     data: {
-      name: String(name),
-      description: String(description),
-      modification_date: now,
+      name,
+      description,
     },
   });
 
-  res.sendStatus(200);
-})
+  res.sendStatus(STATUSES.OK);
+});
 
-const deleteProjectById = catchAsync(async (req, res) => {
+const deleteProject = catchAsyncErrors(async (req, res) => {
   const { projectId } = req.params;
 
   await prisma.project.delete({
@@ -67,13 +63,13 @@ const deleteProjectById = catchAsync(async (req, res) => {
     },
   });
 
-  res.sendStatus(204);
-})
+  res.sendStatus(STATUSES.NO_CONTENT);
+});
 
 module.exports = {
   getAllProjects,
-  getProjectById,
+  getProject,
   addProject,
-  updateProjectById,
-  deleteProjectById,
+  updateProject,
+  deleteProject,
 };
