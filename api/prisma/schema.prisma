@@ -7,12 +7,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model user {
+  id               Int       @id @default(autoincrement())
+  email            String    @unique
+  password         String
+  creationDate     DateTime  @map("creation_date") @db.Timestamptz(6)
+  lastLoginDate    DateTime  @map("last_login_date") @db.Timestamptz(6)
+  modificationDate DateTime  @map("modification_date") @db.Timestamptz(6)
+  project          project[]
+  task             task[]
+
+  @@map("registered_user")
+}
+
 model project {
   id               Int      @id @default(autoincrement())
   name             String
   description      String?
-  creationDate     DateTime @default(now()) @map("creation_date") @db.Timestamptz(6)
+  creationDate     DateTime @map("creation_date") @db.Timestamptz(6)
   modificationDate DateTime @updatedAt @map("modification_date") @db.Timestamptz(6)
+  userId           Int      @map("user_id")
+  user             user     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   task             task[]
 }
 
@@ -24,12 +39,14 @@ model task {
   startDate            DateTime?  @map("start_date") @db.Timestamptz(6)
   estCompletionDate    DateTime?  @map("estimated_completion_date") @db.Timestamptz(6)
   actualCompletionDate DateTime?  @map("actual_completion_date") @db.Timestamptz(6)
-  isDelayed            Boolean?   @default(false) @map("is_delayed")
-  statusId             Int        @map("status_id")
-  creationDate         DateTime   @default(now()) @map("creation_date") @db.Timestamptz(6)
+  isDelayed            Boolean?   @map("is_delayed")
+  statusId             Int        @default(autoincrement()) @map("status_id")
+  creationDate         DateTime   @map("creation_date") @db.Timestamptz(6)
   modificationDate     DateTime   @updatedAt @map("modification_date") @db.Timestamptz(6)
+  userId               Int        @map("user_id")
   project              project    @relation(fields: [projectId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   taskStatus           taskStatus @relation(fields: [statusId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user                 user       @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model taskStatus {

@@ -40,7 +40,6 @@ const getTask = catchAsyncErrors(async (req, res) => {
 
 const addTask = catchAsyncErrors(async (req, res) => {
   const { projectId } = req.query;
-  const newValues = req.body;
 
   if (!projectId) {
     res
@@ -50,7 +49,7 @@ const addTask = catchAsyncErrors(async (req, res) => {
 
   await prisma.task.create({
     data: {
-      ...newValues,
+      ...req.body,
       projectId: Number(projectId),
     },
   });
@@ -60,14 +59,13 @@ const addTask = catchAsyncErrors(async (req, res) => {
 
 const updateTask = catchAsyncErrors(async (req, res) => {
   const { taskId } = req.params;
-  const newValues = req.body;
 
   await prisma.task.update({
     where: {
       id: Number(taskId),
     },
     data: {
-      ...newValues,
+      ...req.body,
       isDelayed,
     },
   });
@@ -87,4 +85,10 @@ const deleteTask = catchAsyncErrors(async (req, res) => {
   res.sendStatus(STATUSES.NO_CONTENT);
 });
 
-module.exports = { getAllTasks, getTask, addTask, updateTask, deleteTask };
+module.exports = {
+  getAllTasks,
+  getTask,
+  addTask,
+  updateTask,
+  deleteTask,
+};
