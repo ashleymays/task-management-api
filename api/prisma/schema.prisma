@@ -11,9 +11,10 @@ model user {
   id               Int       @id @default(autoincrement())
   email            String    @unique
   password         String
-  creationDate     DateTime  @map("creation_date") @db.Timestamptz(6)
-  lastLoginDate    DateTime  @map("last_login_date") @db.Timestamptz(6)
-  modificationDate DateTime  @map("modification_date") @db.Timestamptz(6)
+  creationDate     DateTime  @default(dbgenerated("CURRENT_DATE")) @map("creation_date") @db.Timestamptz(6)
+  modificationDate DateTime  @updatedAt @map("modification_date") @db.Timestamptz(6)
+  firstName        String    @map("first_name")
+  lastName         String    @map("last_name")
   project          project[]
   task             task[]
 
@@ -24,7 +25,7 @@ model project {
   id               Int      @id @default(autoincrement())
   name             String
   description      String?
-  creationDate     DateTime @map("creation_date") @db.Timestamptz(6)
+  creationDate     DateTime @default(dbgenerated("CURRENT_DATE")) @map("creation_date") @db.Timestamptz(6)
   modificationDate DateTime @updatedAt @map("modification_date") @db.Timestamptz(6)
   userId           Int      @map("user_id")
   user             user     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -41,7 +42,7 @@ model task {
   actualCompletionDate DateTime?  @map("actual_completion_date") @db.Timestamptz(6)
   isDelayed            Boolean?   @map("is_delayed")
   statusId             Int        @default(autoincrement()) @map("status_id")
-  creationDate         DateTime   @map("creation_date") @db.Timestamptz(6)
+  creationDate         DateTime   @default(dbgenerated("CURRENT_DATE")) @map("creation_date") @db.Timestamptz(6)
   modificationDate     DateTime   @updatedAt @map("modification_date") @db.Timestamptz(6)
   userId               Int        @map("user_id")
   project              project    @relation(fields: [projectId], references: [id], onDelete: NoAction, onUpdate: NoAction)

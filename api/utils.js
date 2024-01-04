@@ -1,13 +1,12 @@
 /**
- * Wraps an asynchronous function in a try-catch block and automatically checks for errors.
- * Reduces redundancy.
+ * Wraps an asynchronous function in a try-catch block.
  * @param { function } asyncFunction
- * @returns { Promise }
+ * @returns { function }
  */
 const catchAsyncErrors = (asyncFunction) => {
   return async (req, res, next) => {
     try {
-      return await asyncFunction(req, res);
+      return await asyncFunction(req, res, next);
     } catch (error) {
       next(error);
     }

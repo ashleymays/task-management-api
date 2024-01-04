@@ -1,6 +1,6 @@
-const prisma = require("../db");
-const { catchAsyncErrors } = require("../utils");
-const { STATUSES } = require("../constants");
+const prisma = require('../db');
+const { catchAsyncErrors } = require('../utils');
+const { STATUSES } = require('../constants');
 
 const getAllTasks = catchAsyncErrors(async (req, res) => {
   const { projectId } = req.query;
@@ -13,11 +13,11 @@ const getAllTasks = catchAsyncErrors(async (req, res) => {
   const tasks = await prisma.task.findMany({
     where,
     orderBy: {
-      modificationDate: "desc",
+      modificationDate: 'desc'
     },
     include: {
-      taskStatus: true,
-    },
+      taskStatus: true
+    }
   });
 
   res.status(STATUSES.OK).json(tasks);
@@ -28,11 +28,11 @@ const getTask = catchAsyncErrors(async (req, res) => {
 
   const task = await prisma.task.findUnique({
     where: {
-      id: Number(taskId),
+      id: Number(taskId)
     },
     include: {
-      taskStatus: true,
-    },
+      taskStatus: true
+    }
   });
 
   res.status(STATUSES.OK).json(task);
@@ -44,14 +44,14 @@ const addTask = catchAsyncErrors(async (req, res) => {
   if (!projectId) {
     res
       .status(STATUSES.BAD_REQUEST)
-      .json({ message: "Project ID not provided." });
+      .json({ message: 'Project ID not provided.' });
   }
 
   await prisma.task.create({
     data: {
       ...req.body,
-      projectId: Number(projectId),
-    },
+      projectId: Number(projectId)
+    }
   });
 
   res.sendStatus(STATUSES.CREATED);
@@ -62,12 +62,11 @@ const updateTask = catchAsyncErrors(async (req, res) => {
 
   await prisma.task.update({
     where: {
-      id: Number(taskId),
+      id: Number(taskId)
     },
     data: {
-      ...req.body,
-      isDelayed,
-    },
+      ...req.body
+    }
   });
 
   res.sendStatus(STATUSES.OK);
@@ -78,8 +77,8 @@ const deleteTask = catchAsyncErrors(async (req, res) => {
 
   await prisma.task.delete({
     where: {
-      id: Number(taskId),
-    },
+      id: Number(taskId)
+    }
   });
 
   res.sendStatus(STATUSES.NO_CONTENT);
@@ -90,5 +89,5 @@ module.exports = {
   getTask,
   addTask,
   updateTask,
-  deleteTask,
+  deleteTask
 };
