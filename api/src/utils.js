@@ -1,5 +1,3 @@
-const jwt = require('jsonwebtoken');
-
 const catchAsyncErrors = (asyncFunction) => {
   return async (req, res, next) => {
     try {
@@ -10,23 +8,19 @@ const catchAsyncErrors = (asyncFunction) => {
   };
 };
 
-const createUserToken = (userId) => {
-  return jwt.sign({ userId }, process.env.SECRET_KEY, { expiresIn: '15m' });
-};
-
-const getUserCookieOptions = () => {
+const getAuthorizationCookie = () => {
+  const MILLISECONDS_IN_MINUTE = 60 * 1000;
   return {
-    name: 'Auth',
+    name: '__main',
     options: {
       httpOnly: true,
       secure: true,
-      maxAge: 2 * 60 * 1000
+      maxAge: 2 * MILLISECONDS_IN_MINUTE
     }
-  }
+  };
 };
 
 module.exports = {
   catchAsyncErrors,
-  createUserToken,
-  getUserCookieOptions
+  getAuthorizationCookie
 };

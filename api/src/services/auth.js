@@ -1,8 +1,9 @@
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { prisma } = require('../database');
 
-const getUserByEmail = (email) => {
-  return prisma.user.findUnique({ where: { email } });
+const createUserToken = (userId) => {
+  return jwt.sign({ userId }, process.env.SECRET_KEY, { expiresIn: '15m' });
 };
 
 const addUser = async ({ password, ...rest }) => {
@@ -17,6 +18,6 @@ const addUser = async ({ password, ...rest }) => {
 };
 
 module.exports = {
-  getUserByEmail,
+  createUserToken,
   addUser
 };
