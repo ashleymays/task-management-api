@@ -1,8 +1,5 @@
-/**
- * Wraps an asynchronous function in a try-catch block.
- * @param { function } asyncFunction
- * @returns { function }
- */
+const jwt = require('jsonwebtoken');
+
 const catchAsyncErrors = (asyncFunction) => {
   return async (req, res, next) => {
     try {
@@ -13,4 +10,23 @@ const catchAsyncErrors = (asyncFunction) => {
   };
 };
 
-module.exports = { catchAsyncErrors };
+const createUserToken = (userId) => {
+  return jwt.sign({ userId }, process.env.SECRET_KEY, { expiresIn: '15m' });
+};
+
+const getUserCookieOptions = () => {
+  return {
+    name: 'Auth',
+    options: {
+      httpOnly: true,
+      secure: true,
+      maxAge: 2 * 60 * 1000
+    }
+  }
+};
+
+module.exports = {
+  catchAsyncErrors,
+  createUserToken,
+  getUserCookieOptions
+};

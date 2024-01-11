@@ -8,13 +8,13 @@ datasource db {
 }
 
 model user {
-  id               Int       @id @default(autoincrement())
   email            String    @unique
   password         String
   creationDate     DateTime  @default(dbgenerated("CURRENT_DATE")) @map("creation_date") @db.Timestamptz(6)
   modificationDate DateTime  @updatedAt @map("modification_date") @db.Timestamptz(6)
   firstName        String    @map("first_name")
   lastName         String    @map("last_name")
+  id               String    @id @db.Uuid
   project          project[]
   task             task[]
 
@@ -22,38 +22,33 @@ model user {
 }
 
 model project {
-  id               Int      @id @default(autoincrement())
   name             String
   description      String?
   creationDate     DateTime @default(dbgenerated("CURRENT_DATE")) @map("creation_date") @db.Timestamptz(6)
   modificationDate DateTime @updatedAt @map("modification_date") @db.Timestamptz(6)
-  userId           Int      @map("user_id")
-  user             user     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  task             task[]
+  id               String   @id @db.Uuid
+  userId           String?  @map("user_id") @db.Uuid
+  user             user?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model task {
-  id                   Int        @id @default(autoincrement())
-  projectId            Int        @default(autoincrement()) @map("project_id")
+  projectId            Int       @default(autoincrement()) @map("project_id")
   name                 String
   description          String?
-  startDate            DateTime?  @map("start_date") @db.Timestamptz(6)
-  estCompletionDate    DateTime?  @map("estimated_completion_date") @db.Timestamptz(6)
-  actualCompletionDate DateTime?  @map("actual_completion_date") @db.Timestamptz(6)
-  isDelayed            Boolean?   @map("is_delayed")
-  statusId             Int        @default(autoincrement()) @map("status_id")
-  creationDate         DateTime   @default(dbgenerated("CURRENT_DATE")) @map("creation_date") @db.Timestamptz(6)
-  modificationDate     DateTime   @updatedAt @map("modification_date") @db.Timestamptz(6)
-  userId               Int        @map("user_id")
-  project              project    @relation(fields: [projectId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  taskStatus           taskStatus @relation(fields: [statusId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  user                 user       @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  startDate            DateTime? @map("start_date") @db.Timestamptz(6)
+  estCompletionDate    DateTime? @map("estimated_completion_date") @db.Timestamptz(6)
+  actualCompletionDate DateTime? @map("actual_completion_date") @db.Timestamptz(6)
+  isDelayed            Boolean?  @map("is_delayed")
+  creationDate         DateTime  @default(dbgenerated("CURRENT_DATE")) @map("creation_date") @db.Timestamptz(6)
+  modificationDate     DateTime  @updatedAt @map("modification_date") @db.Timestamptz(6)
+  id                   String    @id @db.Uuid
+  userId               String?   @map("user_id") @db.Uuid
+  user                 user?     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model taskStatus {
   id         Int    @id @default(autoincrement())
   definition String @db.VarChar(24)
-  task       task[]
 
   @@map("task_status")
 }
