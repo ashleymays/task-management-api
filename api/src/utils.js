@@ -1,6 +1,5 @@
 /**
- * Wrapper to catch errors from an
- * asynchronous function.
+ * Wrapper to catch errors from an asynchronous function.
  * @param { function } asyncFunction
  * @returns { function }
  */
