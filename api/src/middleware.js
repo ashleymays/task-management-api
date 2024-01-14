@@ -5,9 +5,9 @@ import { NotAuthenticatedError, InvalidTokenError } from '#custom-errors';
 /**
  * Used to check that a user is authenticated before giving
  * them access to protected routes.
- * @param { Request } req 
- * @param { Response } res 
- * @param { function } next 
+ * @param { Request } req
+ * @param { Response } res
+ * @param { function } next
  */
 export const verifyToken = (req, res, next) => {
   const token = req.header('Authorization');

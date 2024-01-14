@@ -1,3 +1,4 @@
+/* eslint consistent-return: 0 */
 /**
  * Wrapper to catch errors from an asynchronous function.
  * @param { function } asyncFunction
