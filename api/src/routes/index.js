@@ -1,7 +1,5 @@
-const { authRouter } = require('./auth');
+import { authRouter } from './auth.js';
 
-const attachPublicRoutes = (app) => {
+export const attachPublicRoutes = (app) => {
   app.use('/auth', authRouter);
 };
-
-module.exports = { attachPublicRoutes };

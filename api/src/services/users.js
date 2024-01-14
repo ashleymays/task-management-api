@@ -1,9 +1,7 @@
-const { prisma } = require('../database');
+import { prisma } from '#database';
 
-const getUserByEmail = (email) => {
+export const getUserByEmail = (email) => {
   return prisma.user.findUnique({
     where: { email }
   });
 };
-
-module.exports = { getUserByEmail };

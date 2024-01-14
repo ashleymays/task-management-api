@@ -3,7 +3,7 @@
  * @param { function } asyncFunction
  * @returns { function }
  */
-const catchAsyncErrors = (asyncFunction) => {
+export const catchAsyncErrors = (asyncFunction) => {
   return async (req, res, next) => {
     try {
       return await asyncFunction(req, res, next);
@@ -12,5 +12,3 @@ const catchAsyncErrors = (asyncFunction) => {
     }
   };
 };
-
-module.exports = { catchAsyncErrors };

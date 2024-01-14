@@ -1,13 +1,13 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const { prisma } = require('../database');
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import { prisma } from '#database';
 
 /**
  * Returns a new JWT.
  * @param { string } userId 
  * @returns { Promise<string> }
  */
-const createUserToken = (userId) => {
+export const createUserToken = (userId) => {
   return jwt.sign(
       { userId },
       process.env.SECRET_KEY,
@@ -20,7 +20,7 @@ const createUserToken = (userId) => {
 * @param { object } userCredentials
 * @returns { Promise<object> }
 */
-const addUser = async ({ password, ...rest }) => {
+export const addUser = async ({ password, ...rest }) => {
   const salt = await bcrypt.genSalt();
   const hashedPassword = await bcrypt.hash(password, salt);
   return prisma.user.create({
@@ -30,8 +30,3 @@ const addUser = async ({ password, ...rest }) => {
       }
   })
 }
-
-module.exports = {
-  createUserToken,
-  addUser
-};

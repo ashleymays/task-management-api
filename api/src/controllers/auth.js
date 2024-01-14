@@ -1,20 +1,14 @@
-const { STATUS_CODES } = require('../constants');
-const { catchAsyncErrors } = require('../utils');
-const { addUser } = require('../services/auth');
-const { getAuthorizationParams } = require('../helpers/auth');
+import { catchAsyncErrors } from '#utils';
+import { addUser } from '#services/auth';
+import { getCookieParams } from '#helpers/auth';
+import { STATUS_CODES } from '#constants';
 
-const login = () => {};
+export const login = () => {};
 
-const logout = () => {};
+export const logout = () => {};
 
-const register = catchAsyncErrors(async (req, res) => {
+export const register = catchAsyncErrors(async (req, res) => {
   const user = await addUser(req.body);
-  const cookieParams = await getAuthorizationParams(user.id);
-  res.cookie(cookieParams).sendStatus(STATUS_CODES.CREATED);
+  const { name, token, options } = await getCookieParams(user.id);
+  res.cookie(name, token, options).sendStatus(STATUS_CODES.CREATED);
 });
-
-module.exports = {
-  login,
-  logout,
-  register
-};

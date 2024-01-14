@@ -1,4 +1,4 @@
-const { createUserToken } = require('../services/auth');
+import { createUserToken } from '#services/auth';
 
 /**
 * Returns the parameters needed 
@@ -6,7 +6,7 @@ const { createUserToken } = require('../services/auth');
 * @param { string } userId 
 * @returns { object }
 */
-const getAuthorizationParams = async (userId) => {
+export const getCookieParams = async (userId) => {
   const MILLISECONDS_IN_MINUTE = 60 * 1000;
   const token = await createUserToken(userId);
   return {
@@ -19,5 +19,3 @@ const getAuthorizationParams = async (userId) => {
       }
   }
 }
-
-module.exports = { getAuthorizationParams }

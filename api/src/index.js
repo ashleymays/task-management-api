@@ -1,5 +1,5 @@
-const express = require('express');
-const { attachPublicRoutes } = require('./routes');
+import express from 'express';
+import { attachPublicRoutes } from '#routes';
 
 const app = express();
 

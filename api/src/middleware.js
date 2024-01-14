@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
-const { STATUS_CODES } = require('./constants');
-const { NotAuthenticatedError, InvalidTokenError } = require('./custom-errors');
+import jwt from 'jsonwebtoken';
+import { STATUS_CODES } from '#constants';
+import { NotAuthenticatedError, InvalidTokenError } from '#custom-errors';
 
 /**
  * Used to check that a user is authenticated before giving
@@ -9,7 +9,7 @@ const { NotAuthenticatedError, InvalidTokenError } = require('./custom-errors');
  * @param { Response } res 
  * @param { function } next 
  */
-const verifyToken = (req, res, next) => {
+export const verifyToken = (req, res, next) => {
   const token = req.header('Authorization');
   if (!token) {
     res.status(STATUS_CODES.BAD_REQUEST).json(new InvalidTokenError());
@@ -23,5 +23,3 @@ const verifyToken = (req, res, next) => {
   req.user.id = userId;
   next();
 };
-
-module.exports = { verifyToken };
