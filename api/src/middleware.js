@@ -3,8 +3,7 @@ const { STATUS_CODES } = require('./constants');
 const { NotAuthenticatedError, InvalidTokenError } = require('./custom-errors');
 
 const verifyToken = (req, res, next) => {
-  const TOKEN_HEADER = 'Authorization';
-  const token = req.header(TOKEN_HEADER);
+  const token = req.header('Authorization');
   if (!token) {
     res.status(STATUS_CODES.BAD_REQUEST).json(new InvalidTokenError());
   }

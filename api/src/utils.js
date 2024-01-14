@@ -1,3 +1,9 @@
+/**
+ * Wrapper to catch errors from an
+ * asynchronous function.
+ * @param { function } asyncFunction
+ * @returns { function }
+ */
 const catchAsyncErrors = (asyncFunction) => {
   return async (req, res, next) => {
     try {
@@ -8,19 +14,4 @@ const catchAsyncErrors = (asyncFunction) => {
   };
 };
 
-const getAuthorizationCookie = () => {
-  const MILLISECONDS_IN_MINUTE = 60 * 1000;
-  return {
-    name: '__main',
-    options: {
-      httpOnly: true,
-      secure: true,
-      maxAge: 2 * MILLISECONDS_IN_MINUTE
-    }
-  };
-};
-
-module.exports = {
-  catchAsyncErrors,
-  getAuthorizationCookie
-};
+module.exports = { catchAsyncErrors };

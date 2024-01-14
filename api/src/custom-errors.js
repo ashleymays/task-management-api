@@ -1,29 +1,20 @@
-class InvalidCredentialError extends Error {
-  constructor(message = 'Invalid Credentials.') {
-    super();
-    this.message = message;
-    this.name = 'InvalidCredentialError';
-  }
-}
-
 class InvalidTokenError extends Error {
-  constructor(message = 'Invalid token.') {
+  constructor() {
     super();
-    this.message = message;
+    this.message = 'Invalid token.';
     this.name = 'InvalidTokenError';
   }
 }
 
 class NotAuthenticatedError extends Error {
-  constructor(message = 'Not authenticated.') {
+  constructor() {
     super();
-    this.message = message;
+    this.message = 'User is not authenticated.';
     this.name = 'NotAuthenticatedError';
   }
 }
 
 module.exports = {
-  InvalidCredentialError,
   InvalidTokenError,
   NotAuthenticatedError
 };
