@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { prisma } from '#shared/database.js';
+import { prisma } from '#shared/database/index.js';
 
 /**
  * Returns a new JWT.

@@ -1,4 +1,4 @@
-import { createUserToken } from '#services/auth';
+import { createUserToken } from './services.js';
 
 /**
  * Returns the parameters needed

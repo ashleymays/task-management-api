@@ -4,6 +4,8 @@
   "main": "./src/index.js",
   "scripts": {
     "dev": "cd src && nodemon index.js",
+    "prisma-gen": "npx prisma generate --schema src/shared/database/prisma/schema.prisma",
+    "prisma-pull": "npx prisma db pull --schema src/shared/database/prisma/schema.prisma",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
     "format": "prettier --write './**/*.{js,md,json}' --config ./.prettierrc"
