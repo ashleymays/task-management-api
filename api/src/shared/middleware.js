@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import { STATUS_CODES } from '#constants';
-import { NotAuthenticatedError, InvalidTokenError } from '#custom-errors';
+import { STATUS_CODES } from './constants.js';
+import { NotAuthenticatedError, InvalidTokenError } from './custom-errors.js';
 
 /**
  * Used to check that a user is authenticated before giving
