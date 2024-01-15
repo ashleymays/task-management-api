@@ -14,15 +14,7 @@
   "description": "",
   "type": "module",
   "imports": {
-    "#routes": "./src/routes/index.js",
-    "#controllers/*": "./src/controllers/*.js",
-    "#services/*": "./src/services/*.js",
-    "#helpers/*": "./src/helpers/*.js",
-    "#constants": "./src/constants.js",
-    "#utils": "./src/utils.js",
-    "#database": "./src/database.js",
-    "#custom-errors": "./src/custom-errors.js",
-    "#middleware": "./src/middleware.js"
+    "#shared/*.js": "./src/shared/*.js"
   },
   "dependencies": {
     "@prisma/client": "^5.8.0",
