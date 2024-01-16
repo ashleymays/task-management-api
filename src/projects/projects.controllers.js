@@ -1,11 +1,11 @@
 const { STATUS_CODES } = require("../constants");
 const { catchErrors } = require("../utils");
 const { prismaWrapper } = require("../database/wrapper");
-const { prisma } = require("../database/client");
+const { prisma } = require("../database");
 const { NotFoundError } = require('../custom-errors');
 
 
-const projectModel = prismaWrapper(prisma.project);
+const prismaProject = prismaWrapper(prisma.project);
 
 
 /**
@@ -14,7 +14,7 @@ const projectModel = prismaWrapper(prisma.project);
  */
 const addProject = catchErrors(async (req, res) => {
   const { userId } = req.user;
-  const project = await projectModel.addOne(userId, req.body);
+  const project = await prismaProject.addOne(userId, req.body);
   res.status(STATUS_CODES.CREATED).json(project);
 });
 
@@ -25,7 +25,7 @@ const addProject = catchErrors(async (req, res) => {
  */
 const getProject = catchErrors(async (req, res) => {
   const { projectId } = req.params;
-  const project = await projectModel.getOne(projectId);
+  const project = await prismaProject.getOne(projectId);
 
   if (!project) {
     res.status(STATUS_CODES.NOT_FOUND).json(NotFoundError());
@@ -41,7 +41,7 @@ const getProject = catchErrors(async (req, res) => {
  */
 const getProjectList = catchErrors(async (req, res) => {
   const { userId } = req.user;
-  const projectList = await projectModel.getMany(userId);
+  const projectList = await prismaProject.getMany(userId);
   res.status(STATUS_CODES.OK).json(projectList);
 });
 
