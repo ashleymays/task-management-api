@@ -1,10 +1,10 @@
-const express = require("express");
-const { attachRoutes } = require('./routes');
+import express from 'express';
 
 const app = express();
 
 app.use(express.json());
 
-attachRoutes(app);
-
-app.listen(process.env.PORT || 8080);
+app.listen(process.env.PORT || 8081, () => {
+  console.log('Started server');
+  console.log(db)
+});

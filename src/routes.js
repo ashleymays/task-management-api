@@ -1,7 +1,5 @@
-const { projectsRouter } = require('./projects/projects.routes');
+// import { projectsRouter } from './projects/projects.routes.js';
 
-const attachRoutes = (app) => {
-  app.get('/projects', projectsRouter);
-}
-
-module.exports = { attachRoutes };
+export const attachRoutes = (app) => {
+  // app.get('/projects', projectsRouter);
+};
