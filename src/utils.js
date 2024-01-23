@@ -10,5 +10,5 @@ export const catchErrors = (asyncFn) => {
     } catch (error) {
       next(error);
     }
-  }
+  };
 };
