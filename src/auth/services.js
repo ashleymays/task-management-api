@@ -3,13 +3,12 @@ import bcrypt from 'bcrypt';
 import { prisma } from '../database';
 
 export const createToken = (userId) => {
-  return jwt.sign(String(userId), process.env.SECRET_KEY, { expiresIn: '15m' });
+  return jwt.sign({ userId: String(userId) }, process.env.SECRET_KEY, {
+    expiresIn: '5s'
+  });
 };
 
-export const isCorrectPassword = (
-  inputtedPassword,
-  hashedPassword
-) => {
+export const isCorrectPassword = (inputtedPassword, hashedPassword) => {
   return bcrypt.compare(inputtedPassword, hashedPassword);
 };
 

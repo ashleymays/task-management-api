@@ -1,28 +1,23 @@
 import { STATUS_CODES } from '../constants';
 import { NotFoundError, InvalidCredentialsError } from '../custom-errors';
 import { catchErrors } from '../utils';
-import * as services from './services';
-import * as helpers from './helpers';
+import { getUserByEmail, isCorrectPassword, createToken } from './services';
 
 export const login = catchErrors(async (req, res) => {
   const { email, password } = req.body;
-  const user = await services.getUserByEmail(email);
 
+  const user = await getUserByEmail(email);
   if (!user) {
-    res.status(STATUS_CODES.NOT_FOUND).json(new NotFoundError());
+    throw new NotFoundError();
   }
 
-  const isCorrectPassword = await services.isCorrectPassword(
-    password,
-    user.password
-  );
-
-  if (!isCorrectPassword) {
-    res.status(STATUS_CODES.BAD_REQUEST).json(new InvalidCredentialsError());
+  const isMatch = await isCorrectPassword(password, user.password);
+  if (!isMatch) {
+    throw new InvalidCredentialsError();
   }
 
-  helpers.attachUserToRequest(req, user);
+  req.user = { userId: user.id };
 
-  const { name, token, options } = await helpers.createCookie(user.id);
-  res.cookie(name, token, options).status(STATUS_CODES.OK).json();
+  const token = await createToken(user.id);
+  res.set('Authorization', `Bearer ${token}`).sendStatus(STATUS_CODES.OK);
 });

@@ -3,14 +3,11 @@ env:
   browser: true
   es2021: true
 extends:
-  - airbnb-base
+  - airbnb
   - plugin:prettier/recommended
-plugins:
-  - '@typescript-eslint'
 parserOptions:
   ecmaVersion: latest
   sourceType: module
-  parser: '@typescript-eslint/parser'
 rules:
   import/prefer-default-export: 'off'
   arrow-body-style: 'off'

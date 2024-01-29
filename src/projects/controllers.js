@@ -21,9 +21,10 @@ export const getProject = catchErrors(async (req, res) => {
 });
 
 export const getProjectList = catchErrors(async (req, res) => {
-  const { userId } = req.user;
-  const projectList = await Project.getList(userId);
-  res.status(STATUS_CODES.OK).json(projectList);
+  // const { userId } = req.user;
+  console.log(req.user);
+  // const projectList = await Project.getList(userId);
+  res.status(STATUS_CODES.OK).json({});
 });
 
 export const updateProject = catchErrors(async (req, res) => {
