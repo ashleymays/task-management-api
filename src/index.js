@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import { attachRoutes } from './routes';
 
@@ -7,6 +8,8 @@ app.use(express.json());
 
 attachRoutes(app);
 
-app.listen(8080, () => {
-  console.log('Started server');
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`started server at port ${PORT}`);
 });

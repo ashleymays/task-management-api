@@ -1,32 +1,34 @@
-import { prisma } from '../database';
+import { prisma } from '../shared/database';
 
-export const get = (id) => {
+export const getProjectById = (id) => {
   return prisma.project.findUnique({
     where: { id: String(id) }
   });
 };
 
-export const add = (userId, data) => {
+export const createProject = (userId, projectFields) => {
   return prisma.project.create({
-    where: { userId: String(userId) },
-    data
+    data: {
+      ...projectFields,
+      userId
+    }
   });
 };
 
-export const getList = (userId) => {
+export const getAllProjects = (userId) => {
   return prisma.project.findMany({
     where: { userId: String(userId) }
   });
 };
 
-export const update = (id, data) => {
+export const updateProjectById = (id, projectFields) => {
   return prisma.project.update({
     where: { id: String(id) },
-    data
+    data: { ...projectFields }
   });
 };
 
-export const remove = (id) => {
+export const removeProjectById = (id) => {
   return prisma.project.delete({
     where: { id: String(id) }
   });

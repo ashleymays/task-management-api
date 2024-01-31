@@ -1,6 +1,9 @@
-import { STATUS_CODES } from '../constants';
-import { NotFoundError, InvalidCredentialsError } from '../custom-errors';
-import { catchErrors } from '../utils';
+import { STATUS_CODES } from '../shared/constants';
+import {
+  NotFoundError,
+  InvalidCredentialsError
+} from '../shared/custom-errors';
+import { catchErrors } from '../shared/utils';
 import { getUserByEmail, isCorrectPassword, createToken } from './services';
 
 export const login = catchErrors(async (req, res) => {
@@ -20,4 +23,13 @@ export const login = catchErrors(async (req, res) => {
 
   const token = await createToken(user.id);
   res.set('Authorization', `Bearer ${token}`).sendStatus(STATUS_CODES.OK);
+});
+
+export const register = catchErrors(async (req, res) => {
+  // check if user exists in database
+  // if not, create a new user
+  // if so, check if password matches
+  // if it doesn't match, throw invalid credentials errors
+  // create user token
+  // set up auth header and send ok status
 });

@@ -1,4 +1,4 @@
-import { STATUS_CODES } from "./constants";
+import { STATUS_CODES } from './constants';
 
 export class NotFoundError extends Error {
   constructor() {
@@ -14,6 +14,6 @@ export class InvalidCredentialsError extends Error {
     super();
     this.message = 'Invalid credentials provided.';
     this.name = 'InvalidCredentialsError';
-    this.statusCode = STATUS_CODES.BAD_REQUEST
+    this.statusCode = STATUS_CODES.BAD_REQUEST;
   }
 }

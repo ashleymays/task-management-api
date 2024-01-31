@@ -8,12 +8,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "nodemon --import=extensionless/register src/index.js",
+    "dev": "nodemon --experimental-loader=extensionless src/index.js",
     "lint": "npx eslint .",
     "lint:fix": "npx eslint --fix",
     "format": "npx prettier . --write",
-    "prisma-gen": "npx prisma generate --schema ./src/database/schema.prisma",
-    "prisma-pull": "npx prisma db pull --schema ./src/database/schema.prisma"
+    "prisma-gen": "npx prisma generate --schema ./src/shared/database/schema.prisma",
+    "prisma-pull": "npx prisma db pull --schema ./src/shared/database/schema.prisma"
   },
   "devDependencies": {
     "eslint": "^8.56.0",
@@ -27,6 +27,7 @@
   "dependencies": {
     "@prisma/client": "^5.8.1",
     "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.1",
     "express": "^4.18.2",
     "extensionless": "^1.9.6",
     "jsonwebtoken": "^9.0.2"
