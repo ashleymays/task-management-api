@@ -5,6 +5,7 @@ import { attachRoutes } from './routes';
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 attachRoutes(app);
 
