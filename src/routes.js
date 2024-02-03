@@ -1,10 +1,10 @@
-import { authRouter } from './auth';
-import { projectRouter } from './projects';
-import { verifyUser } from './shared/middleware';
+// import { authRouter } from './auth';
+// import { verifyUser } from './shared/middleware.js';
 
 export const attachRoutes = (app) => {
-  attachPublicRoutes(app);
-  attachPrivateRoutes(app);
+  console.log('attached routes');
+  // attachPublicRoutes(app);
+  // attachPrivateRoutes(app);
 };
 
 const attachPublicRoutes = (app) => {
@@ -13,5 +13,4 @@ const attachPublicRoutes = (app) => {
 
 const attachPrivateRoutes = (app) => {
   app.use(verifyUser);
-  app.use('/projects', projectRouter);
 };

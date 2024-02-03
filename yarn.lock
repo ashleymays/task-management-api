@@ -987,11 +987,6 @@ express@^4.18.2:
     utils-merge "1.0.1"
     vary "~1.1.2"
 
-extensionless@^1.9.6:
-  version "1.9.6"
-  resolved "https://registry.npmjs.org/extensionless/-/extensionless-1.9.6.tgz"
-  integrity sha512-40F6zThJu1MxaT1A1pJ/2SHlU1BPYYnQNHt0j2ZlPuxxm2ddMcNc1D7uS/LGc4K3VwMEMaZLkCdHWaKk0LnQXA==
-
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
   resolved "https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz"
