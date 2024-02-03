@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { prisma } from '../shared/database';
+import { prisma } from '../database';
 
 export const createToken = (userId) => {
   return jwt.sign({ userId: String(userId) }, process.env.SECRET_KEY, {

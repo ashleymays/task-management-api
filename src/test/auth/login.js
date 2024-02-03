@@ -1,6 +1,6 @@
 import * as baseChai from 'chai';
 import chaiHttp from 'chai-http';
-import { STATUS_CODES } from '../../shared/constants.js';
+import { STATUS_CODES } from '../../constants.js';
 import { app } from '../../index.js';
 
 const chai = baseChai.use(chaiHttp);

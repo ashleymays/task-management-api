@@ -1,6 +1,6 @@
-import { STATUS_CODES } from '../shared/constants';
-import { NotFoundError, InvalidCredentialsError } from '../shared/errors';
-import { catchErrors } from '../shared/utils';
+import { STATUS_CODES } from '../constants';
+import { NotFoundError, InvalidCredentialsError } from '../errors';
+import { catchErrors } from '../utils';
 import * as services from './services';
 
 const attachUserToRequest = (req, user) => {
