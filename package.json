@@ -8,7 +8,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node --experimental-loader=extensionless src/index.js",
+    "dev": "nodemon --experimental-loader=extensionless src/index.js",
     "test": "npx mocha ./src/**/test.js",
     "lint": "npx eslint .",
     "lint:fix": "npx eslint --fix",

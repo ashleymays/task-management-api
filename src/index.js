@@ -4,13 +4,16 @@ import { attachRoutes } from './routes';
 
 const app = express();
 
+const errorHandler = (error, req, res) => {
+    console.log('here')
+    res.status(error.statusCode).json(error);
+}
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 attachRoutes(app);
 
-const PORT = process.env.PORT || 3000;
+app.listen(process.env.PORT || 3000);
 
-app.listen(PORT, () => {
-  console.log(`started server at port ${PORT}`);
-});
+app.use(errorHandler);

@@ -1,35 +1,29 @@
 import { STATUS_CODES } from '../shared/constants';
-import {
-  NotFoundError,
-  InvalidCredentialsError
-} from '../shared/custom-errors';
+import { NotFoundError, InvalidCredentialsError } from '../shared/errors';
 import { catchErrors } from '../shared/utils';
-import { getUserByEmail, isCorrectPassword, createToken } from './services';
+import * as services from './services';
+
+const attachUserToRequest = (req, user) => {
+  req.user = { userId: user.id };
+}
 
 export const login = catchErrors(async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await getUserByEmail(email);
+  const user = await services.getUserByEmail(email);
   if (!user) {
     throw new NotFoundError();
   }
 
-  const isMatch = await isCorrectPassword(password, user.password);
+  const isMatch = await services.isCorrectPassword(password, user.password);
   if (!isMatch) {
     throw new InvalidCredentialsError();
   }
 
-  req.user = { userId: user.id };
-
-  const token = await createToken(user.id);
-  res.set('Authorization', `Bearer ${token}`).sendStatus(STATUS_CODES.OK);
-});
-
-export const register = catchErrors(async (req, res) => {
-  // check if user exists in database
-  // if not, create a new user
-  // if so, check if password matches
-  // if it doesn't match, throw invalid credentials errors
-  // create user token
-  // set up auth header and send ok status
+  attachUserToRequest(req, user);
+  
+  const formattedUser = services.getFormattedUser(user);
+  const token = await services.createToken(user.id);
+  
+  res.set('Authorization', `Bearer ${token}`).status(STATUS_CODES.OK).json(formattedUser);
 });

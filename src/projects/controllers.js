@@ -1,6 +1,6 @@
 import { STATUS_CODES } from '../shared/constants';
 import { catchErrors } from '../shared/utils';
-import { NotFoundError } from '../shared/custom-errors';
+import { NotFoundError } from '../shared/errors';
 import * as services from './services';
 
 export const addProject = catchErrors(async (req, res) => {
