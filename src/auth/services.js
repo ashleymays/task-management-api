@@ -21,4 +21,4 @@ export const getUserByEmail = (email) => {
 export const getFormattedUser = (user) => {
   const { password, id, modificationDate, ...formattedUser } = user;
   return formattedUser;
-}
+};

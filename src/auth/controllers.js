@@ -5,10 +5,14 @@ import * as services from './services';
 
 const attachUserToRequest = (req, user) => {
   req.user = { userId: user.id };
-}
+};
 
 export const login = catchErrors(async (req, res) => {
-  const { email, password } = req.body;
+  const { email = null, password = null } = req.body;
+
+  if (!email || !password) {
+    throw new InvalidCredentialsError();
+  }
 
   const user = await services.getUserByEmail(email);
   if (!user) {
@@ -21,9 +25,12 @@ export const login = catchErrors(async (req, res) => {
   }
 
   attachUserToRequest(req, user);
-  
+
   const formattedUser = services.getFormattedUser(user);
   const token = await services.createToken(user.id);
-  
-  res.set('Authorization', `Bearer ${token}`).status(STATUS_CODES.OK).json(formattedUser);
+
+  res
+    .set('Authorization', `Bearer ${token}`)
+    .status(STATUS_CODES.OK)
+    .json(formattedUser);
 });
