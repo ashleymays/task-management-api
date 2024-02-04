@@ -1,9 +1,6 @@
-import * as baseChai from 'chai';
-import chaiHttp from 'chai-http';
+import { chai } from '../setup';
 import { STATUS_CODES } from '../../constants';
 import { app } from '../../index';
-
-const chai = baseChai.use(chaiHttp);
 
 /**
  * Should return Invalid Credentials error for no email given.

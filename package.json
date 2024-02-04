@@ -9,7 +9,7 @@
   "type": "module",
   "scripts": {
     "dev": "node --experimental-modules --es-module-specifier-resolution=node src/index.js",
-    "test": "mocha --experimental-modules --es-module-specifier-resolution=node ./src/test/**/*.js",
+    "test": "mocha --experimental-modules --es-module-specifier-resolution=node --require ./src/test/setup.js ./src/test/**/*.spec.js",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
     "format": "prettier . --write",
