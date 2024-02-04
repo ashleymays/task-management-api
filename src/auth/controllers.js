@@ -36,4 +36,5 @@ export const register = catchErrors(async (req, res) => {
   // get formatted user object
   // get token for user
   // send response
+  throw new InvalidCredentialsError();
 });

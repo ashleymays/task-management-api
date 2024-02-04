@@ -17,6 +17,9 @@ export const invalidCredentialsErrorForNoEmail = (done) => {
     .end((error, response) => {
       chai.expect(error).to.be.null;
       chai.expect(response).to.have.status(STATUS_CODES.BAD_REQUEST);
+      chai.expect(response._body).to.be.an('object');
+      chai.expect(response._body).to.have.property('name');
+      chai.expect(response._body.name).to.equal('InvalidCredentialsError');
       done();
     });
 };
@@ -38,6 +41,9 @@ export const invalidCredentialsErrorForNoPassword = (done) => {
     .end((error, response) => {
       chai.expect(error).to.be.null;
       chai.expect(response).to.have.status(STATUS_CODES.BAD_REQUEST);
+      chai.expect(response._body).to.be.an('object');
+      chai.expect(response._body).to.have.property('name');
+      chai.expect(response._body.name).to.equal('InvalidCredentialsError');
       done();
     });
 };
@@ -60,6 +66,9 @@ export const notFoundErrorForWrongEmail = (done) => {
     .end((error, response) => {
       chai.expect(error).to.be.null;
       chai.expect(response).to.have.status(STATUS_CODES.NOT_FOUND);
+      chai.expect(response._body).to.be.an('object');
+      chai.expect(response._body).to.have.property('name');
+      chai.expect(response._body.name).to.equal('NotFoundError');
       done();
     });
 };
@@ -82,6 +91,9 @@ export const notFoundErrorForWrongPassword = (done) => {
     .end((error, response) => {
       chai.expect(error).to.be.null;
       chai.expect(response).to.have.status(STATUS_CODES.BAD_REQUEST);
+      chai.expect(response._body).to.be.an('object');
+      chai.expect(response._body).to.have.property('name');
+      chai.expect(response._body.name).to.equal('InvalidCredentialsError');
       done();
     });
 };
@@ -148,6 +160,7 @@ export const returnAuthHeaderForCorrectCredentials = (done) => {
     })
     .end((error, response) => {
       chai.expect(error).to.be.null;
+      chai.expect(response.headers).to.have.property('authorization');
       chai.expect(response.headers.authorization).to.be.a('string');
       chai.expect(response.headers.authorization).to.include('Bearer ');
       chai.expect(response._body).to.have.property('email');
