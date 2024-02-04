@@ -1,4 +1,6 @@
-<img align="center" alt="To Do List" src="./icon.png" />
+<div align="center">
+  <img alt="To Do List" src="./icon.png" />
+</div>
 
 <h1 align="center" id="title">Task Management App</h1>
 
