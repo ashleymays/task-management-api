@@ -1,4 +1,4 @@
-import { chai } from '../setup';
+import { chai, expect } from '../setup';
 import { STATUS_CODES } from '../../constants';
 import { app } from '../../index';
 
@@ -15,11 +15,11 @@ export const invalidCredentialsErrorForNoEmail = (done) => {
     .set('Accept', 'application/json')
     .send({})
     .end((error, response) => {
-      chai.expect(error).to.be.null;
-      chai.expect(response).to.have.status(STATUS_CODES.BAD_REQUEST);
-      chai.expect(response._body).to.be.an('object');
-      chai.expect(response._body).to.have.property('name');
-      chai.expect(response._body.name).to.equal('InvalidCredentialsError');
+      expect(error).to.be.null;
+      expect(response).to.have.status(STATUS_CODES.BAD_REQUEST);
+      expect(response._body).to.be.an('object');
+      expect(response._body).to.have.property('name');
+      expect(response._body.name).to.equal('InvalidCredentialsError');
       done();
     });
 };
@@ -39,11 +39,11 @@ export const invalidCredentialsErrorForNoPassword = (done) => {
       email: 'email@email.com'
     })
     .end((error, response) => {
-      chai.expect(error).to.be.null;
-      chai.expect(response).to.have.status(STATUS_CODES.BAD_REQUEST);
-      chai.expect(response._body).to.be.an('object');
-      chai.expect(response._body).to.have.property('name');
-      chai.expect(response._body.name).to.equal('InvalidCredentialsError');
+      expect(error).to.be.null;
+      expect(response).to.have.status(STATUS_CODES.BAD_REQUEST);
+      expect(response._body).to.be.an('object');
+      expect(response._body).to.have.property('name');
+      expect(response._body.name).to.equal('InvalidCredentialsError');
       done();
     });
 };
@@ -64,11 +64,11 @@ export const notFoundErrorForWrongEmail = (done) => {
       password: 'password123'
     })
     .end((error, response) => {
-      chai.expect(error).to.be.null;
-      chai.expect(response).to.have.status(STATUS_CODES.NOT_FOUND);
-      chai.expect(response._body).to.be.an('object');
-      chai.expect(response._body).to.have.property('name');
-      chai.expect(response._body.name).to.equal('NotFoundError');
+      expect(error).to.be.null;
+      expect(response).to.have.status(STATUS_CODES.NOT_FOUND);
+      expect(response._body).to.be.an('object');
+      expect(response._body).to.have.property('name');
+      expect(response._body.name).to.equal('NotFoundError');
       done();
     });
 };
@@ -89,11 +89,11 @@ export const notFoundErrorForWrongPassword = (done) => {
       password: 'wrong-password'
     })
     .end((error, response) => {
-      chai.expect(error).to.be.null;
-      chai.expect(response).to.have.status(STATUS_CODES.BAD_REQUEST);
-      chai.expect(response._body).to.be.an('object');
-      chai.expect(response._body).to.have.property('name');
-      chai.expect(response._body.name).to.equal('InvalidCredentialsError');
+      expect(error).to.be.null;
+      expect(response).to.have.status(STATUS_CODES.BAD_REQUEST);
+      expect(response._body).to.be.an('object');
+      expect(response._body).to.have.property('name');
+      expect(response._body.name).to.equal('InvalidCredentialsError');
       done();
     });
 };
@@ -114,8 +114,8 @@ export const okStatusForCorrectCredentials = (done) => {
       password: 'password123'
     })
     .end((error, response) => {
-      chai.expect(error).to.be.null;
-      chai.expect(response).to.have.status(STATUS_CODES.OK);
+      expect(error).to.be.null;
+      expect(response).to.have.status(STATUS_CODES.OK);
       done();
     });
 };
@@ -136,9 +136,9 @@ export const returnObjectForCorrectCredentials = (done) => {
       password: 'password123'
     })
     .end((error, response) => {
-      chai.expect(error).to.be.null;
-      chai.expect(response._body).to.be.an('object');
-      chai.expect(response._body).to.have.property('email');
+      expect(error).to.be.null;
+      expect(response._body).to.be.an('object');
+      expect(response._body).to.have.property('email');
       done();
     });
 };
@@ -159,11 +159,52 @@ export const returnAuthHeaderForCorrectCredentials = (done) => {
       password: 'password123'
     })
     .end((error, response) => {
-      chai.expect(error).to.be.null;
-      chai.expect(response.headers).to.have.property('authorization');
-      chai.expect(response.headers.authorization).to.be.a('string');
-      chai.expect(response.headers.authorization).to.include('Bearer ');
-      chai.expect(response._body).to.have.property('email');
+      expect(error).to.be.null;
+      expect(response.headers).to.have.property('authorization');
+      expect(response.headers.authorization).to.be.a('string');
+      expect(response.headers.authorization).to.include('Bearer ');
+      expect(response._body).to.have.property('email');
+      done();
+    });
+};
+
+/**
+ * Should return well-formed json for correct credentials given.
+ *
+ * @param { function } done - required for chai-http
+ */
+export const returnJsonForCorrectCredentials = (done) => {
+    chai
+    .request(app)
+    .post('/auth/login')
+    .set('Content-Type', 'application/json')
+    .set('Accept', 'application/json')
+    .send({
+      email: 'email@email.com',
+      password: 'password123'
+    })
+    .end((error, response) => {
+      expect(error).to.be.null;
+      expect(response).to.be.json;
+      done();
+    });
+};
+
+/**
+ * Should return well-formed json for incorrect or missing credentials given.
+ *
+ * @param { function } done - required for chai-http
+ */
+export const returnJsonForIncorrectCredentials = (done) => {
+    chai
+    .request(app)
+    .post('/auth/login')
+    .set('Content-Type', 'application/json')
+    .set('Accept', 'application/json')
+    .send({})
+    .end((error, response) => {
+      expect(error).to.be.null;
+      expect(response).to.be.json;
       done();
     });
 };

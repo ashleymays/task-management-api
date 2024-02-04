@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha';
 import * as loginTests from './login.test';
-import * as registerTests from './register.test.js';
+import * as registerTests from './register.test';
 
 describe('auth', () => {
   describe('/login', () => {
@@ -32,12 +32,24 @@ describe('auth', () => {
       'should return an authorization header for correct credentials given',
       loginTests.returnAuthHeaderForCorrectCredentials
     );
+    it(
+      'should return well-formed json for correct credentials given',
+      loginTests.returnJsonForCorrectCredentials
+    );
+    it(
+      'should return well-formed json for incorrect or missing credentials given',
+      loginTests.returnJsonForIncorrectCredentials
+    );
   });
 
   describe('/register', () => {
     it(
       'should return Invalid Credentials error for any missing credentials',
       registerTests.invalidCredentialsErrorForMissingCredentials
+    );
+    it(
+      'should return Created status for correct information and a new user added to the database',
+      registerTests.createdStatusForCorrectInformation
     );
   });
 });

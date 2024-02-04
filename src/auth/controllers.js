@@ -36,5 +36,14 @@ export const register = catchErrors(async (req, res) => {
   // get formatted user object
   // get token for user
   // send response
-  throw new InvalidCredentialsError();
+  const {
+    email = null,
+    password = null,
+    firstName = null,
+    lastName = null
+  } = req.body;
+  if (!email || !password || !firstName || !lastName) {
+    throw new InvalidCredentialsError();
+  }
+  res.status(STATUS_CODES.CREATED).json({});
 });
