@@ -5,7 +5,7 @@ import { attachRoutes } from './routes';
 export const app = express();
 
 const errorHandler = (error, req, res, next) => {
-  res.status(error.statusCode).json(error);
+  res.status(error.statusCode || 500).json(error);
 };
 
 app.use(express.json());

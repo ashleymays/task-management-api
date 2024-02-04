@@ -1,6 +1,5 @@
 import { describe, it } from 'mocha';
 import * as loginTests from './login.test';
-import * as registerTests from './register.test.js';
 
 describe('auth', () => {
   describe('/login', () => {
