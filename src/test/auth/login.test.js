@@ -2,6 +2,13 @@ import { chai, expect } from '../setup';
 import { STATUS_CODES } from '../../constants';
 import { app } from '../../index';
 
+const validTestUser = {
+  email: 'test-email@email.com',
+  password: 'test-password',
+  firstName: 'test-firstName',
+  lastName: 'test-lastName'
+};
+
 /**
  * Should return Invalid Credentials error for no email given.
  *
@@ -36,7 +43,7 @@ export const invalidCredentialsErrorForNoPassword = (done) => {
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
     .send({
-      email: 'email@email.com'
+      email: validTestUser.email
     })
     .end((error, response) => {
       expect(error).to.be.null;
@@ -61,7 +68,7 @@ export const notFoundErrorForWrongEmail = (done) => {
     .set('Accept', 'application/json')
     .send({
       email: 'wrong-email@nothing.com',
-      password: 'password123'
+      password: validTestUser.password
     })
     .end((error, response) => {
       expect(error).to.be.null;
@@ -85,15 +92,17 @@ export const notFoundErrorForWrongPassword = (done) => {
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
     .send({
-      email: 'email@email.com',
+      email: validTestUser.email,
       password: 'wrong-password'
     })
     .end((error, response) => {
       expect(error).to.be.null;
       expect(response).to.have.status(STATUS_CODES.BAD_REQUEST);
       expect(response._body).to.be.an('object');
-      expect(response._body).to.have.property('name');
-      expect(response._body.name).to.equal('InvalidCredentialsError');
+      expect(response._body).to.have.property(
+        'name',
+        'InvalidCredentialsError'
+      );
       done();
     });
 };
@@ -110,8 +119,8 @@ export const okStatusForCorrectCredentials = (done) => {
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
     .send({
-      email: 'email@email.com',
-      password: 'password123'
+      email: validTestUser.email,
+      password: validTestUser.password
     })
     .end((error, response) => {
       expect(error).to.be.null;
@@ -132,15 +141,21 @@ export const objectForCorrectCredentials = (done) => {
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
     .send({
-      email: 'email@email.com',
-      password: 'password123'
+      email: validTestUser.email,
+      password: validTestUser.password
     })
     .end((error, response) => {
       expect(error).to.be.null;
       expect(response._body).to.be.an('object');
-      expect(response._body).to.have.property('email');
-      expect(response._body).to.have.property('firstName');
-      expect(response._body).to.have.property('lastName');
+      expect(response._body).to.have.property('email', validTestUser.email);
+      expect(response._body).to.have.property(
+        'firstName',
+        validTestUser.firstName
+      );
+      expect(response._body).to.have.property(
+        'lastName',
+        validTestUser.lastName
+      );
       expect(response._body).to.not.have.property('password');
       expect(response._body).to.not.have.property('id');
       done();
@@ -159,8 +174,8 @@ export const authHeaderForCorrectCredentials = (done) => {
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
     .send({
-      email: 'email@email.com',
-      password: 'password123'
+      email: validTestUser.email,
+      password: validTestUser.password
     })
     .end((error, response) => {
       expect(error).to.be.null;
@@ -183,8 +198,8 @@ export const jsonForCorrectCredentials = (done) => {
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
     .send({
-      email: 'email@email.com',
-      password: 'password123'
+      email: validTestUser.email,
+      password: validTestUser.password
     })
     .end((error, response) => {
       expect(error).to.be.null;
