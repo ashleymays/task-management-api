@@ -3,10 +3,6 @@ import { NotFoundError, InvalidCredentialsError } from '../errors';
 import { catchErrors } from '../utils';
 import * as services from './services';
 
-const attachUserToRequest = (req, user) => {
-  req.user = { userId: user.id };
-};
-
 export const login = catchErrors(async (req, res) => {
   const { email = null, password = null } = req.body;
 
@@ -24,10 +20,8 @@ export const login = catchErrors(async (req, res) => {
     throw new InvalidCredentialsError();
   }
 
-  attachUserToRequest(req, user);
-
   const formattedUser = services.getFormattedUser(user);
-  const token = await services.createToken(user.id);
+  const token = await services.createUserToken(user.id);
 
   res
     .set('Authorization', `Bearer ${token}`)

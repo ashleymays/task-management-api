@@ -1,23 +1,24 @@
 import { describe, it } from 'mocha';
-import * as loginTests from './login.test.js';
+import * as loginTests from './login.test';
+import * as registerTests from './register.test.js';
 
 describe('auth', () => {
-  describe('login', () => {
+  describe('/login', () => {
     it(
       'should return Invalid Credentials error for no email given',
-      loginTests.noEmail
+      loginTests.invalidCredentialsErrorForNoEmail
     );
     it(
       'should return Invalid Credentials error for no password given',
-      loginTests.noPassword
+      loginTests.invalidCredentialsErrorForNoPassword
     );
     it(
       'should return Not Found error for incorrect email given',
-      loginTests.wrongEmail
+      loginTests.notFoundErrorForWrongEmail
     );
     it(
       'should return Invalid Credentials error for incorrect password given',
-      loginTests.wrongPassword
+      loginTests.notFoundErrorForWrongPassword
     );
     it(
       'should return OK status for correct credentials given',
@@ -26,6 +27,10 @@ describe('auth', () => {
     it(
       "should return the user's information in an object for correct credentials given",
       loginTests.returnObjectForCorrectCredentials
+    );
+    it(
+      'should return an authorization header for correct credentials given',
+      loginTests.returnAuthHeaderForCorrectCredentials
     );
   });
 });
