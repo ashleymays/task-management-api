@@ -1,5 +1,5 @@
 <div align="center">
-  <img alt="To Do List" src="./icon.png" />
+  <img alt="To Do List" width="150" src="./icon.png" />
 </div>
 
 <h1 align="center" id="title">Task Management App</h1>
