@@ -51,9 +51,7 @@ export const register = catchErrors(async (req, res) => {
     .json(formattedUser);
 });
 
-// get email, password, firstName, and lastName from request body
-// if email is already in database, login as normally (set up auth header and attach user to request)
-// else add user to database
-// get formatted user object
-// get token for user
-// send response
+export const logout = catchErrors(async (req, res) => {
+  res.removeHeader('Authorization');
+  res.sendStatus(STATUS_CODES.NO_CONTENT);
+});

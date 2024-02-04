@@ -1,6 +1,7 @@
 import { describe, it } from 'mocha';
 import * as loginTests from './login.test';
 import * as registerTests from './register.test';
+import * as logoutTests from './logout.test';
 
 describe('auth', () => {
   describe('/login', () => {
@@ -25,7 +26,7 @@ describe('auth', () => {
       loginTests.okStatusForCorrectCredentials
     );
     it(
-      "should return the user as an object for correct credentials given",
+      'should return the user as an object for correct credentials given',
       loginTests.objectForCorrectCredentials
     );
     it(
@@ -46,6 +47,15 @@ describe('auth', () => {
     it(
       'should return Invalid Credentials error for any missing credentials',
       registerTests.invalidCredentialsErrorForMissingCredentials
+    );
+  });
+
+  describe('/logout', () => {
+    it('should send No Content status', logoutTests.sendNoContentStatus);
+    it('should send no body in the response', logoutTests.sendNoBodyInResponse);
+    it(
+      'should remove the authorization header from the response',
+      logoutTests.removeAuthHeaderInResponse
     );
   });
 });
