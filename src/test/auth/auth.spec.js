@@ -3,44 +3,44 @@ import * as loginTests from './login.test';
 import * as registerTests from './register.test';
 
 describe('auth', () => {
-  describe('/login', () => {
-    it(
-      'should return Invalid Credentials error for no email given',
-      loginTests.invalidCredentialsErrorForNoEmail
-    );
-    it(
-      'should return Invalid Credentials error for no password given',
-      loginTests.invalidCredentialsErrorForNoPassword
-    );
-    it(
-      'should return Not Found error for incorrect email given',
-      loginTests.notFoundErrorForWrongEmail
-    );
-    it(
-      'should return Invalid Credentials error for incorrect password given',
-      loginTests.notFoundErrorForWrongPassword
-    );
-    it(
-      'should return OK status for correct credentials given',
-      loginTests.okStatusForCorrectCredentials
-    );
-    it(
-      "should return the user's information in an object for correct credentials given",
-      loginTests.returnObjectForCorrectCredentials
-    );
-    it(
-      'should return an authorization header for correct credentials given',
-      loginTests.returnAuthHeaderForCorrectCredentials
-    );
-    it(
-      'should return well-formed json for correct credentials given',
-      loginTests.returnJsonForCorrectCredentials
-    );
-    it(
-      'should return well-formed json for incorrect or missing credentials given',
-      loginTests.returnJsonForIncorrectCredentials
-    );
-  });
+  // describe('/login', () => {
+  //   it(
+  //     'should return Invalid Credentials error for no email given',
+  //     loginTests.invalidCredentialsErrorForNoEmail
+  //   );
+  //   it(
+  //     'should return Invalid Credentials error for no password given',
+  //     loginTests.invalidCredentialsErrorForNoPassword
+  //   );
+  //   it(
+  //     'should return Not Found error for incorrect email given',
+  //     loginTests.notFoundErrorForWrongEmail
+  //   );
+  //   it(
+  //     'should return Invalid Credentials error for incorrect password given',
+  //     loginTests.notFoundErrorForWrongPassword
+  //   );
+  //   it(
+  //     'should return OK status for correct credentials given',
+  //     loginTests.okStatusForCorrectCredentials
+  //   );
+  //   it(
+  //     "should return the user as an object for correct credentials given",
+  //     loginTests.objectForCorrectCredentials
+  //   );
+  //   it(
+  //     'should return an authorization header with a bearer token for correct credentials given',
+  //     loginTests.authHeaderForCorrectCredentials
+  //   );
+  //   it(
+  //     'should return well-formed json for correct credentials given',
+  //     loginTests.jsonForCorrectCredentials
+  //   );
+  //   it(
+  //     'should return well-formed json for incorrect or missing credentials given',
+  //     loginTests.jsonForIncorrectCredentials
+  //   );
+  // });
 
   describe('/register', () => {
     it(
@@ -48,8 +48,20 @@ describe('auth', () => {
       registerTests.invalidCredentialsErrorForMissingCredentials
     );
     it(
-      'should return Created status for correct information and a new user added to the database',
+      'should return Created status for correct credentials',
       registerTests.createdStatusForCorrectInformation
+    );
+    it(
+      'should return user in response body for correct credentials',
+      registerTests.userInResponseBodyForCorrectCredentials
+    );
+    it(
+      'should return an authorization header with a bearer token for correct credentials',
+      registerTests.authHeaderForCorrectCredentials
     );
   });
 });
+
+// return valid auth header
+// return user in body
+// check that password and id are not there

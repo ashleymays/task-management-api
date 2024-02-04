@@ -39,9 +39,9 @@ export const createUserToken = (userId) => {
  * password from the database match.
  *
  * @example
- * const { hashedPassword, ...rest } = await getUserByEmail('example@gmail.com');
+ * const user = await getUserByEmail('example@gmail.com');
  * const inputtedPassword = 'password';
- * const isMatch = await isCorrectPassword(inputtedPassword, hashedPassword);
+ * const isMatch = await isCorrectPassword(inputtedPassword, user.password);
  *
  * @param { string } inputtedPassword
  * @param { string } hashedPassword
@@ -63,6 +63,47 @@ export const isCorrectPassword = (inputtedPassword, hashedPassword) => {
  * @returns { Prisma.user }
  */
 export const getFormattedUser = (user) => {
-  const { password, id, modificationDate, ...formattedUser } = user;
+  const { password, id, ...formattedUser } = user;
   return formattedUser;
 };
+
+/**
+ * Adds a new user to the database, or returns the user
+ * if they already exist in the database.
+ * 
+ * @example
+ * const user = await findOrCreateUser({
+    email: 'example@gmail.com',
+    password: 'password',
+    firstName: 'firstName',
+    lastName: 'lastName'
+   });
+ *
+ * @param { Object } user
+ * @param { string } user.password
+ * @param { string } user.email
+ * @param { string } user.firstName
+ * @param { string } user.lastName
+ * @returns { Promise<Prisma.user> }
+ */
+export const findOrCreateUser = (() => {
+  const getHashedPassword = (password) => {
+    const saltRounds = 10;
+    return bcrypt.hash(password, saltRounds);
+  };
+
+  return async ({ password, email, ...rest }) => {
+    const hashedPassword = await getHashedPassword(password);
+    return prisma.user.upsert({
+      where: {
+        email
+      },
+      update: {},
+      create: {
+        password: hashedPassword,
+        email,
+        ...rest
+      }
+    });
+  };
+})();

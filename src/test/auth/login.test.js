@@ -125,7 +125,7 @@ export const okStatusForCorrectCredentials = (done) => {
  *
  * @param { function } done - required for chai-http
  */
-export const returnObjectForCorrectCredentials = (done) => {
+export const objectForCorrectCredentials = (done) => {
   chai
     .request(app)
     .post('/auth/login')
@@ -138,9 +138,11 @@ export const returnObjectForCorrectCredentials = (done) => {
     .end((error, response) => {
       expect(error).to.be.null;
       expect(response._body).to.be.an('object');
-    
-      // TODO: Move the below line into a separate test that checks for a well-composed body.
       expect(response._body).to.have.property('email');
+      expect(response._body).to.have.property('firstName');
+      expect(response._body).to.have.property('lastName');
+      expect(response._body).to.not.have.property('password');
+      expect(response._body).to.not.have.property('id');
       done();
     });
 };
@@ -150,7 +152,7 @@ export const returnObjectForCorrectCredentials = (done) => {
  *
  * @param { function } done - required for chai-http
  */
-export const returnAuthHeaderForCorrectCredentials = (done) => {
+export const authHeaderForCorrectCredentials = (done) => {
   chai
     .request(app)
     .post('/auth/login')
@@ -165,7 +167,6 @@ export const returnAuthHeaderForCorrectCredentials = (done) => {
       expect(response.headers).to.have.property('authorization');
       expect(response.headers.authorization).to.be.a('string');
       expect(response.headers.authorization).to.include('Bearer ');
-      expect(response._body).to.have.property('email');
       done();
     });
 };
@@ -175,8 +176,8 @@ export const returnAuthHeaderForCorrectCredentials = (done) => {
  *
  * @param { function } done - required for chai-http
  */
-export const returnJsonForCorrectCredentials = (done) => {
-    chai
+export const jsonForCorrectCredentials = (done) => {
+  chai
     .request(app)
     .post('/auth/login')
     .set('Content-Type', 'application/json')
@@ -197,8 +198,8 @@ export const returnJsonForCorrectCredentials = (done) => {
  *
  * @param { function } done - required for chai-http
  */
-export const returnJsonForIncorrectCredentials = (done) => {
-    chai
+export const jsonForIncorrectCredentials = (done) => {
+  chai
     .request(app)
     .post('/auth/login')
     .set('Content-Type', 'application/json')
