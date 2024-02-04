@@ -138,6 +138,8 @@ export const returnObjectForCorrectCredentials = (done) => {
     .end((error, response) => {
       expect(error).to.be.null;
       expect(response._body).to.be.an('object');
+    
+      // TODO: Move the below line into a separate test that checks for a well-composed body.
       expect(response._body).to.have.property('email');
       done();
     });
