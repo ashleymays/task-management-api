@@ -1,7 +1,3 @@
-<div align="center">
-  <img alt="To Do List" width="150" src="./icon.png" />
-</div>
+<h1 id="title">Task Management App</h1>
 
-<h1 align="center" id="title">Task Management App</h1>
-
-<p id="description" align="center">A tool for managing projects and increasing productivity. Work in progress.</p>
+<p id="description">A tool for managing projects and increasing productivity. Work in progress.</p>
