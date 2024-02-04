@@ -8,13 +8,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "nodemon --experimental-modules --es-module-specifier-resolution=node src/index.js",
-    "test": "mocha ./src/test/**/*.js",
+    "dev": "node --experimental-modules --es-module-specifier-resolution=node src/index.js",
+    "test": "mocha --experimental-modules --es-module-specifier-resolution=node ./src/test/**/*.js",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
     "format": "prettier . --write",
-    "prisma-gen": "prisma generate --schema ./src/shared/database/schema.prisma",
-    "prisma-pull": "prisma db pull --schema ./src/shared/database/schema.prisma"
+    "prisma-gen": "prisma generate --schema ./src/database/schema.prisma",
+    "prisma-pull": "prisma db pull --schema ./src/database/schema.prisma"
   },
   "devDependencies": {
     "chai": "^5.0.3",

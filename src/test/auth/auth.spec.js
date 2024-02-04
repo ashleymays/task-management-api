@@ -1,5 +1,5 @@
 import { describe, it } from 'mocha';
-import * as loginTests from './login.js';
+import * as loginTests from './login.test.js';
 
 describe('auth', () => {
   describe('login', () => {

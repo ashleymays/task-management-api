@@ -2,7 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import { attachRoutes } from './routes';
 
-const app = express();
+export const app = express();
 
 const errorHandler = (error, req, res, next) => {
   res.status(error.statusCode).json(error);
