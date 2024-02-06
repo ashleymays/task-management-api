@@ -1,6 +1,6 @@
-import { chai, expect } from '../setup';
-import { STATUS_CODES } from '../../constants';
-import { app } from '../../index';
+import { chai, expect } from 'api/test/setup';
+import { STATUS_CODES } from 'api/constants';
+import { app } from 'api/index';
 
 /**
  * Should return Invalid Credentials error for any missing credentials.
