@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { prisma } from '../database';
+import { prisma } from 'api/database';
 
 /**
  * Gets the user from the database by

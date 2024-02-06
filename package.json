@@ -1,5 +1,5 @@
 {
-  "name": "task-management-app",
+  "name": "api",
   "version": "1.0.0",
   "main": "src/index.js",
   "repository": "https://github.com/ashleymays/task-management-app.git",
@@ -7,8 +7,11 @@
   "license": "MIT",
   "private": true,
   "type": "module",
+  "exports": {
+    "./*": "./src/*"
+  },
   "scripts": {
-    "dev": "node --experimental-modules --es-module-specifier-resolution=node src/index.js",
+    "dev": "nodemon --experimental-modules --es-module-specifier-resolution=node src/index.js",
     "test": "mocha --experimental-modules --es-module-specifier-resolution=node --require ./src/test/setup.js ./src/test/**/*.spec.js",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",

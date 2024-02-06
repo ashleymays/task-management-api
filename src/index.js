@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
-import { attachRoutes } from './routes';
+import { attachRoutes } from 'api/routes';
 
 export const app = express();
 
