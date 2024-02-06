@@ -26,20 +26,8 @@ describe('auth', () => {
       loginTests.okStatusForCorrectCredentials
     );
     it(
-      'should return the user as an object for correct credentials given',
-      loginTests.objectForCorrectCredentials
-    );
-    it(
       'should return an authorization header with a bearer token for correct credentials given',
       loginTests.authHeaderForCorrectCredentials
-    );
-    it(
-      'should return well-formed json for correct credentials given',
-      loginTests.jsonForCorrectCredentials
-    );
-    it(
-      'should return well-formed json for incorrect or missing credentials given',
-      loginTests.jsonForIncorrectCredentials
     );
   });
 

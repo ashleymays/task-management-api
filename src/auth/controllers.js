@@ -20,13 +20,11 @@ export const login = catchErrors(async (req, res) => {
     throw new InvalidCredentialsError();
   }
 
-  const formattedUser = services.getFormattedUser(user);
   const token = await services.createUserToken(user.id);
 
   res
     .set('Authorization', `Bearer ${token}`)
-    .status(STATUS_CODES.OK)
-    .json(formattedUser);
+    .sendStatus(STATUS_CODES.OK);
 });
 
 export const register = catchErrors(async (req, res) => {
@@ -42,13 +40,11 @@ export const register = catchErrors(async (req, res) => {
   }
 
   const user = await services.findOrCreateUser(req.body);
-  const formattedUser = services.getFormattedUser(user);
   const token = await services.createUserToken(user.id);
 
   res
     .set('Authorization', `Bearer ${token}`)
-    .status(STATUS_CODES.CREATED)
-    .json(formattedUser);
+    .sendStatus(STATUS_CODES.CREATED);
 });
 
 export const logout = catchErrors(async (req, res) => {

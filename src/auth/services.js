@@ -52,22 +52,6 @@ export const isCorrectPassword = (inputtedPassword, hashedPassword) => {
 };
 
 /**
- * Gets the user without the sensitive or
- * unused information.
- *
- * @example
- * const user = await getUserByEmail('example@gmail.com');
- * const formattedUser = getFormattedUser(user);
- *
- * @param { Prisma.user } user
- * @returns { Prisma.user }
- */
-export const getFormattedUser = (user) => {
-  const { password, id, ...formattedUser } = user;
-  return formattedUser;
-};
-
-/**
  * Adds a new user to the database, or returns the user
  * if they already exist in the database.
  * 
