@@ -14,6 +14,13 @@ import { prisma } from 'api/shared/database';
  */
 export const getUserByEmail = (email) => {
   return prisma.user.findUnique({
+    select: {
+      email: true,
+      password: true,
+      firstName: true,
+      lastName: true,
+      id: true
+    },
     where: { email }
   });
 };
@@ -76,6 +83,12 @@ export const findOrCreateUser = (() => {
   return async ({ password, email, ...rest }) => {
     const hashedPassword = await getHashedPassword(password);
     return prisma.user.upsert({
+      select: {
+        email: true,
+        firstName: true,
+        lastName: true,
+        id: true
+      },
       where: {
         email
       },
@@ -88,3 +101,15 @@ export const findOrCreateUser = (() => {
     });
   };
 })();
+
+/**
+ * Returns the user without the sensitive information
+ * that should not be exposed to the client.
+ *
+ * @param { object } user
+ * @returns { object }
+ */
+export const getUserWithoutSensitiveData = (user) => {
+  const { id, password, ...userWithoutSensitiveData } = user;
+  return userWithoutSensitiveData;
+};

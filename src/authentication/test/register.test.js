@@ -2,11 +2,6 @@ import { chai, expect } from 'api/test/setup';
 import { STATUS_CODES } from 'api/shared/constants';
 import { app } from 'api/index';
 
-/**
- * Should return Invalid Credentials error for any missing credentials.
- *
- * @param { function } done - required for chai-http
- */
 export const invalidCredentialsErrorForMissingCredentials = (done) => {
   chai
     .request(app)

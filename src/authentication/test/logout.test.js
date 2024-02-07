@@ -2,11 +2,6 @@ import { chai, expect } from 'api/test/setup';
 import { STATUS_CODES } from 'api/shared/constants';
 import { app } from 'api/index';
 
-/**
- * Should send No Content status.
- *
- * @param { function } done - required for chai-http
- */
 export const sendNoContentStatus = (done) => {
   chai
     .request(app)
@@ -20,11 +15,6 @@ export const sendNoContentStatus = (done) => {
     });
 };
 
-/**
- * Should send no body in the response.
- *
- * @param { function } done - required for chai-http
- */
 export const sendNoBodyInResponse = (done) => {
   chai
     .request(app)
@@ -38,11 +28,6 @@ export const sendNoBodyInResponse = (done) => {
     });
 };
 
-/**
- * Should remove the authorization header from the response.
- *
- * @param { function } done - required for chai-http
- */
 export const removeAuthHeaderInResponse = (done) => {
   chai
     .request(app)

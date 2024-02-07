@@ -9,11 +9,6 @@ const validTestUser = {
   lastName: 'test-lastName'
 };
 
-/**
- * Should return Invalid Credentials error for no email given.
- *
- * @param { function } done - required for chai-http
- */
 export const invalidCredentialsErrorForNoEmail = (done) => {
   chai
     .request(app)
@@ -31,11 +26,6 @@ export const invalidCredentialsErrorForNoEmail = (done) => {
     });
 };
 
-/**
- * Should return Invalid Credentials error for no password given.
- *
- * @param { function } done - required for chai-http
- */
 export const invalidCredentialsErrorForNoPassword = (done) => {
   chai
     .request(app)
@@ -55,11 +45,6 @@ export const invalidCredentialsErrorForNoPassword = (done) => {
     });
 };
 
-/**
- * Should return Not Found error for incorrect email given.
- *
- * @param { function } done - required for chai-http
- */
 export const notFoundErrorForWrongEmail = (done) => {
   chai
     .request(app)
@@ -80,11 +65,6 @@ export const notFoundErrorForWrongEmail = (done) => {
     });
 };
 
-/**
- * Should return Invalid Credentials error for incorrect password given.
- *
- * @param { function } done - required for chai-http
- */
 export const notFoundErrorForWrongPassword = (done) => {
   chai
     .request(app)
@@ -107,11 +87,6 @@ export const notFoundErrorForWrongPassword = (done) => {
     });
 };
 
-/**
- * Should return OK status for correct credentials given.
- *
- * @param { function } done - required for chai-http
- */
 export const okStatusForCorrectCredentials = (done) => {
   chai
     .request(app)
@@ -129,11 +104,6 @@ export const okStatusForCorrectCredentials = (done) => {
     });
 };
 
-/**
- * Should return an authorization header for correct credentials given.
- *
- * @param { function } done - required for chai-http
- */
 export const authHeaderForCorrectCredentials = (done) => {
   chai
     .request(app)
@@ -149,6 +119,65 @@ export const authHeaderForCorrectCredentials = (done) => {
       expect(response.headers).to.have.property('authorization');
       expect(response.headers.authorization).to.be.a('string');
       expect(response.headers.authorization).to.include('Bearer ');
+      done();
+    });
+};
+
+export const objectForCorrectCredentials = (done) => {
+  chai
+    .request(app)
+    .post('/auth/login')
+    .set('Content-Type', 'application/json')
+    .set('Accept', 'application/json')
+    .send({
+      email: validTestUser.email,
+      password: validTestUser.password
+    })
+    .end((error, response) => {
+      expect(error).to.be.null;
+      expect(response._body).to.be.an('object');
+      expect(response._body).to.have.property('email', validTestUser.email);
+      expect(response._body).to.have.property(
+        'firstName',
+        validTestUser.firstName
+      );
+      expect(response._body).to.have.property(
+        'lastName',
+        validTestUser.lastName
+      );
+      expect(response._body).to.not.have.property('password');
+      expect(response._body).to.not.have.property('id');
+      done();
+    });
+};
+
+export const jsonForCorrectCredentials = (done) => {
+  chai
+    .request(app)
+    .post('/auth/login')
+    .set('Content-Type', 'application/json')
+    .set('Accept', 'application/json')
+    .send({
+      email: validTestUser.email,
+      password: validTestUser.password
+    })
+    .end((error, response) => {
+      expect(error).to.be.null;
+      expect(response).to.be.json;
+      done();
+    });
+};
+
+export const jsonForIncorrectCredentials = (done) => {
+  chai
+    .request(app)
+    .post('/auth/login')
+    .set('Content-Type', 'application/json')
+    .set('Accept', 'application/json')
+    .send({})
+    .end((error, response) => {
+      expect(error).to.be.null;
+      expect(response).to.be.json;
       done();
     });
 };

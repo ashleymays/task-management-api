@@ -21,8 +21,12 @@ export const login = catchErrors(async (req, res) => {
   }
 
   const token = await services.createUserToken(user.id);
+  const userWithoutSensitiveData = services.getUserWithoutSensitiveData(user);
 
-  res.set('Authorization', `Bearer ${token}`).sendStatus(STATUS_CODES.OK);
+  res
+    .set('Authorization', `Bearer ${token}`)
+    .status(STATUS_CODES.OK)
+    .json(userWithoutSensitiveData);
 });
 
 export const register = catchErrors(async (req, res) => {
@@ -40,7 +44,10 @@ export const register = catchErrors(async (req, res) => {
   const user = await services.findOrCreateUser(req.body);
   const token = await services.createUserToken(user.id);
 
-  res.set('Authorization', `Bearer ${token}`).sendStatus(STATUS_CODES.CREATED);
+  res
+    .set('Authorization', `Bearer ${token}`)
+    .status(STATUS_CODES.CREATED)
+    .json(user);
 });
 
 export const logout = catchErrors(async (req, res) => {
