@@ -20,7 +20,7 @@ export const login = catchErrors(async (req, res) => {
     throw new InvalidCredentialsError();
   }
 
-  const token = await services.createUserToken(user.id);
+  const token = services.createUserToken(user.id);
   const userWithoutSensitiveData = services.getUserWithoutSensitiveData(user);
 
   res
@@ -42,7 +42,7 @@ export const register = catchErrors(async (req, res) => {
   }
 
   const user = await services.findOrCreateUser(req.body);
-  const token = await services.createUserToken(user.id);
+  const token = services.createUserToken(user.id);
 
   res
     .set('Authorization', `Bearer ${token}`)

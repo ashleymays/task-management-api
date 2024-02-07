@@ -3,8 +3,8 @@ import * as loginTests from './login.test';
 import * as registerTests from './register.test';
 import * as logoutTests from './logout.test';
 
-describe('auth', () => {
-  describe('/login', () => {
+describe('Auth', () => {
+  describe('POST /login', () => {
     it(
       'should return Invalid Credentials error for no email given',
       loginTests.invalidCredentialsErrorForNoEmail
@@ -43,14 +43,14 @@ describe('auth', () => {
     );
   });
 
-  describe('/register', () => {
+  describe('POST /register', () => {
     it(
       'should return Invalid Credentials error for any missing credentials',
       registerTests.invalidCredentialsErrorForMissingCredentials
     );
   });
 
-  describe('/logout', () => {
+  describe('DELETE /logout', () => {
     it('should send No Content status', logoutTests.sendNoContentStatus);
     it('should send no body in the response', logoutTests.sendNoBodyInResponse);
     it(

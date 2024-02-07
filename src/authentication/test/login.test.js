@@ -20,8 +20,10 @@ export const invalidCredentialsErrorForNoEmail = (done) => {
       expect(error).to.be.null;
       expect(response).to.have.status(STATUS_CODES.BAD_REQUEST);
       expect(response._body).to.be.an('object');
-      expect(response._body).to.have.property('name');
-      expect(response._body.name).to.equal('InvalidCredentialsError');
+      expect(response._body).to.have.property(
+        'name',
+        'InvalidCredentialsError'
+      );
       done();
     });
 };
@@ -39,8 +41,10 @@ export const invalidCredentialsErrorForNoPassword = (done) => {
       expect(error).to.be.null;
       expect(response).to.have.status(STATUS_CODES.BAD_REQUEST);
       expect(response._body).to.be.an('object');
-      expect(response._body).to.have.property('name');
-      expect(response._body.name).to.equal('InvalidCredentialsError');
+      expect(response._body).to.have.property(
+        'name',
+        'InvalidCredentialsError'
+      );
       done();
     });
 };
@@ -59,8 +63,7 @@ export const notFoundErrorForWrongEmail = (done) => {
       expect(error).to.be.null;
       expect(response).to.have.status(STATUS_CODES.NOT_FOUND);
       expect(response._body).to.be.an('object');
-      expect(response._body).to.have.property('name');
-      expect(response._body.name).to.equal('NotFoundError');
+      expect(response._body).to.have.property('name', 'NotFoundError');
       done();
     });
 };

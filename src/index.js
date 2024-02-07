@@ -1,12 +1,9 @@
 import 'dotenv/config';
 import express from 'express';
 import { attachRoutes } from 'api/routes';
+import { errorHandler } from 'api/middleware/error-handler';
 
 export const app = express();
-
-const errorHandler = (error, req, res, next) => {
-  res.status(error.statusCode || 500).json(error);
-};
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

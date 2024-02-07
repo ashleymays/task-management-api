@@ -29,15 +29,20 @@ export const getUserByEmail = (email) => {
  * Creates a JWT for authorizing requests.
  *
  * @example
- * const token = await createUserToken(userId);
+ * const token = createUserToken(userId);
  *
  * @param { string } userId
  * @returns { Promise<string> }
  */
 export const createUserToken = (userId) => {
-  return jwt.sign({ userId }, process.env.SECRET_KEY, {
-    expiresIn: '1h'
-  });
+  const now = Date.now();
+  const MILLISECONDS_IN_HOUR = 1000 * 60 * 60;
+  const payload = {
+    iat: now,
+    exp: now + MILLISECONDS_IN_HOUR,
+    userId
+  };
+  return jwt.sign(payload, process.env.SECRET_KEY);
 };
 
 /**
