@@ -16,8 +16,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
     "format": "prettier . --write",
-    "prisma-gen": "prisma generate --schema ./src/database/schema.prisma",
-    "prisma-pull": "prisma db pull --schema ./src/database/schema.prisma"
+    "prisma-gen": "prisma generate --schema ./prisma/schema.prisma",
+    "prisma-pull": "prisma db pull --schema ./prisma/schema.prisma"
   },
   "devDependencies": {
     "chai": "^5.0.3",

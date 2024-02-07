@@ -22,9 +22,7 @@ export const login = catchErrors(async (req, res) => {
 
   const token = await services.createUserToken(user.id);
 
-  res
-    .set('Authorization', `Bearer ${token}`)
-    .sendStatus(STATUS_CODES.OK);
+  res.set('Authorization', `Bearer ${token}`).sendStatus(STATUS_CODES.OK);
 });
 
 export const register = catchErrors(async (req, res) => {
@@ -42,9 +40,7 @@ export const register = catchErrors(async (req, res) => {
   const user = await services.findOrCreateUser(req.body);
   const token = await services.createUserToken(user.id);
 
-  res
-    .set('Authorization', `Bearer ${token}`)
-    .sendStatus(STATUS_CODES.CREATED);
+  res.set('Authorization', `Bearer ${token}`).sendStatus(STATUS_CODES.CREATED);
 });
 
 export const logout = catchErrors(async (req, res) => {
