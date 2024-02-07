@@ -1,5 +1,5 @@
 import { chai, expect } from 'api/test/setup';
-import { STATUS_CODES } from 'api/constants';
+import { STATUS_CODES } from 'api/shared/constants';
 import { app } from 'api/index';
 
 const validTestUser = {

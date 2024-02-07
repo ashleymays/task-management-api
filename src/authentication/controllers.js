@@ -1,6 +1,6 @@
-import { STATUS_CODES } from 'api/constants';
-import { NotFoundError, InvalidCredentialsError } from 'api/errors';
-import { catchErrors } from 'api/utils';
+import { NotFoundError, InvalidCredentialsError } from 'api/shared/errors';
+import { STATUS_CODES } from 'api/shared/constants';
+import { catchErrors } from 'api/shared/utils';
 import * as services from './services';
 
 export const login = catchErrors(async (req, res) => {

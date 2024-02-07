@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { prisma } from 'api/database';
+import { prisma } from 'api/shared/database';
 
 /**
  * Gets the user from the database by
@@ -22,8 +22,7 @@ export const getUserByEmail = (email) => {
  * Creates a JWT for authorizing requests.
  *
  * @example
- * const user = await getUserByEmail('example@gmail.com');
- * const token = await createUserToken(user.id);
+ * const token = await createUserToken(userId);
  *
  * @param { string } userId
  * @returns { Promise<string> }
@@ -39,9 +38,7 @@ export const createUserToken = (userId) => {
  * password from the database match.
  *
  * @example
- * const user = await getUserByEmail('example@gmail.com');
- * const inputtedPassword = 'password';
- * const isMatch = await isCorrectPassword(inputtedPassword, user.password);
+ * const isMatch = await isCorrectPassword(inputtedPassword, hashedPassword);
  *
  * @param { string } inputtedPassword
  * @param { string } hashedPassword
