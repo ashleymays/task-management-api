@@ -11,7 +11,6 @@ export const verifyUser = (req, res, next) => {
   const token = authHeader.split('Bearer ')[1];
 
   jwt.verify(token, process.env.SECRET_KEY, (error, decodedToken) => {
-    console.log(decodedToken.exp);
     if (error || isExpired(decodedToken)) {
       throw new ForbiddenError();
     }
@@ -22,5 +21,5 @@ export const verifyUser = (req, res, next) => {
 
 const isExpired = (token) => {
   const tokenExpirationTime = token.exp;
-  return new Date().getTime() > tokenExpirationTime;
+  return Date.now() > tokenExpirationTime;
 };

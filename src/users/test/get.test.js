@@ -1,10 +1,9 @@
-import { chai, expect } from 'api/test/setup';
+import { request, expect, testUser } from 'api/test/setup';
 import { STATUS_CODES } from 'api/shared/constants';
 import { app } from 'api/index';
 
 export const getUserDataForCorrectCredentials = (done) => {
-  chai
-    .request(app)
+  request(app)
     .post('/users/me')
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')

@@ -1,10 +1,9 @@
-import { chai, expect } from 'api/test/setup';
+import { request, expect } from 'api/test/setup';
 import { STATUS_CODES } from 'api/shared/constants';
 import { app } from 'api/index';
 
 export const sendNoContentStatus = (done) => {
-  chai
-    .request(app)
+  request(app)
     .delete('/auth/logout')
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
@@ -16,8 +15,7 @@ export const sendNoContentStatus = (done) => {
 };
 
 export const sendNoBodyInResponse = (done) => {
-  chai
-    .request(app)
+  request(app)
     .delete('/auth/logout')
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
@@ -29,8 +27,7 @@ export const sendNoBodyInResponse = (done) => {
 };
 
 export const removeAuthHeaderInResponse = (done) => {
-  chai
-    .request(app)
+  request(app)
     .delete('/auth/logout')
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')

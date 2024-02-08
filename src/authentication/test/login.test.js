@@ -1,17 +1,9 @@
-import { chai, expect } from 'api/test/setup';
+import { request, expect, testUser } from 'api/test/setup';
 import { STATUS_CODES } from 'api/shared/constants';
 import { app } from 'api/index';
 
-const validTestUser = {
-  email: 'test-email@email.com',
-  password: 'test-password',
-  firstName: 'test-firstName',
-  lastName: 'test-lastName'
-};
-
 export const invalidCredentialsErrorForNoEmail = (done) => {
-  chai
-    .request(app)
+  request(app)
     .post('/auth/login')
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
@@ -29,13 +21,12 @@ export const invalidCredentialsErrorForNoEmail = (done) => {
 };
 
 export const invalidCredentialsErrorForNoPassword = (done) => {
-  chai
-    .request(app)
+  request(app)
     .post('/auth/login')
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
     .send({
-      email: validTestUser.email
+      email: testUser.email
     })
     .end((error, response) => {
       expect(error).to.be.null;
@@ -50,14 +41,13 @@ export const invalidCredentialsErrorForNoPassword = (done) => {
 };
 
 export const notFoundErrorForWrongEmail = (done) => {
-  chai
-    .request(app)
+  request(app)
     .post('/auth/login')
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
     .send({
       email: 'wrong-email@nothing.com',
-      password: validTestUser.password
+      password: testUser.password
     })
     .end((error, response) => {
       expect(error).to.be.null;
@@ -69,13 +59,12 @@ export const notFoundErrorForWrongEmail = (done) => {
 };
 
 export const notFoundErrorForWrongPassword = (done) => {
-  chai
-    .request(app)
+  request(app)
     .post('/auth/login')
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
     .send({
-      email: validTestUser.email,
+      email: testUser.email,
       password: 'wrong-password'
     })
     .end((error, response) => {
@@ -91,14 +80,13 @@ export const notFoundErrorForWrongPassword = (done) => {
 };
 
 export const okStatusForCorrectCredentials = (done) => {
-  chai
-    .request(app)
+  request(app)
     .post('/auth/login')
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
     .send({
-      email: validTestUser.email,
-      password: validTestUser.password
+      email: testUser.email,
+      password: testUser.password
     })
     .end((error, response) => {
       expect(error).to.be.null;
@@ -108,14 +96,13 @@ export const okStatusForCorrectCredentials = (done) => {
 };
 
 export const authHeaderForCorrectCredentials = (done) => {
-  chai
-    .request(app)
+  request(app)
     .post('/auth/login')
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
     .send({
-      email: validTestUser.email,
-      password: validTestUser.password
+      email: testUser.email,
+      password: testUser.password
     })
     .end((error, response) => {
       expect(error).to.be.null;
@@ -127,27 +114,20 @@ export const authHeaderForCorrectCredentials = (done) => {
 };
 
 export const objectForCorrectCredentials = (done) => {
-  chai
-    .request(app)
+  request(app)
     .post('/auth/login')
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
     .send({
-      email: validTestUser.email,
-      password: validTestUser.password
+      email: testUser.email,
+      password: testUser.password
     })
     .end((error, response) => {
       expect(error).to.be.null;
       expect(response._body).to.be.an('object');
-      expect(response._body).to.have.property('email', validTestUser.email);
-      expect(response._body).to.have.property(
-        'firstName',
-        validTestUser.firstName
-      );
-      expect(response._body).to.have.property(
-        'lastName',
-        validTestUser.lastName
-      );
+      expect(response._body).to.have.property('email', testUser.email);
+      expect(response._body).to.have.property('firstName', testUser.firstName);
+      expect(response._body).to.have.property('lastName', testUser.lastName);
       expect(response._body).to.not.have.property('password');
       expect(response._body).to.not.have.property('id');
       done();
@@ -155,14 +135,13 @@ export const objectForCorrectCredentials = (done) => {
 };
 
 export const jsonForCorrectCredentials = (done) => {
-  chai
-    .request(app)
+  request(app)
     .post('/auth/login')
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
     .send({
-      email: validTestUser.email,
-      password: validTestUser.password
+      email: testUser.email,
+      password: testUser.password
     })
     .end((error, response) => {
       expect(error).to.be.null;
@@ -172,8 +151,7 @@ export const jsonForCorrectCredentials = (done) => {
 };
 
 export const jsonForIncorrectCredentials = (done) => {
-  chai
-    .request(app)
+  request(app)
     .post('/auth/login')
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
