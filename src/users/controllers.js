@@ -5,7 +5,7 @@ import * as services from './services';
 
 export const getUser = catchErrors(async (req, res) => {
   const { userId } = req.user;
-  const user = await services.getUserById(userId);
+  const user = await services.findUserById(userId);
 
   if (!user) {
     throw new NotFoundError();

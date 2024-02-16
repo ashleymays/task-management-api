@@ -6,13 +6,10 @@ import { prisma } from 'api/shared/database';
  * Gets the user from the database by
  * the provided email address.
  *
- * @example
- * const user = await getUserByEmail('example@gmail.com');
- *
  * @param {string} email
  * @returns {Promise<Prisma.user>}
  */
-export const getUserByEmail = (email) => {
+export const findUserByEmail = (email) => {
   return prisma.user.findUnique({
     select: {
       email: true,

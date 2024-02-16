@@ -5,7 +5,7 @@ import { prisma } from 'api/shared/database';
  * @param {string} id
  * @returns {Promise<Prisma.user>}
  */
-export const getUserById = (id) => {
+export const findUserById = (id) => {
   return prisma.user.findUnique({
     select: {
       email: true,

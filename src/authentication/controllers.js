@@ -6,7 +6,7 @@ import * as services from './services';
 export const login = catchErrors(async (req, res) => {
   const { email = null, password = null } = req.body;
 
-  const user = await services.getUserByEmail(email);
+  const user = await services.findUserByEmail(email);
   if (!user) {
     throw new NotFoundError();
   }
