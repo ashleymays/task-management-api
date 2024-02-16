@@ -2,6 +2,17 @@ import jwt from 'jsonwebtoken';
 import { InvalidCredentialsError, ForbiddenError } from 'api/shared/errors';
 
 /**
+ *
+ * @param {string} token
+ * @returns {boolean}
+ */
+const isExpired = (token) => {
+  const tokenExpirationTime = token.exp;
+  return Date.now() > tokenExpirationTime;
+};
+
+
+/**
  * Checks that a user is authenticated.
  *
  * @param {RequestHandler} req
@@ -24,14 +35,4 @@ export const verifyUser = (req, res, next) => {
     req.user = { userId: decodedToken.userId };
     next();
   });
-};
-
-/**
- *
- * @param {string} token
- * @returns {boolean}
- */
-const isExpired = (token) => {
-  const tokenExpirationTime = token.exp;
-  return Date.now() > tokenExpirationTime;
 };
