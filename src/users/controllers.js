@@ -23,6 +23,5 @@ export const updateUser = catchErrors(async (req, res) => {
 export const removeUser = catchErrors(async (req, res) => {
   const { userId } = req.user;
   await services.removeUserById(userId);
-  res.removeHeader('Authorization');
   res.sendStatus(STATUS_CODES.NO_CONTENT);
 });

@@ -12,7 +12,7 @@
   },
   "scripts": {
     "dev": "nodemon --experimental-modules --es-module-specifier-resolution=node src/index.js",
-    "test": "mocha --experimental-modules --es-module-specifier-resolution=node --require ./src/test/setup.js ./src/users/test/*.spec.js",
+    "test": "mocha --experimental-modules --es-module-specifier-resolution=node --require ./src/test/setup.js ./src/**/test/*.spec.js",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
     "format": "prettier . --write",

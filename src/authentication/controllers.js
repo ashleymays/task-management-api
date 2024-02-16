@@ -51,6 +51,5 @@ export const register = catchErrors(async (req, res) => {
 });
 
 export const logout = catchErrors(async (req, res) => {
-  res.removeHeader('Authorization');
   res.sendStatus(STATUS_CODES.NO_CONTENT);
 });
