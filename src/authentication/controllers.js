@@ -6,10 +6,6 @@ import * as services from './services';
 export const login = catchErrors(async (req, res) => {
   const { email = null, password = null } = req.body;
 
-  if (!email || !password) {
-    throw new InvalidCredentialsError();
-  }
-
   const user = await services.getUserByEmail(email);
   if (!user) {
     throw new NotFoundError();
@@ -36,10 +32,6 @@ export const register = catchErrors(async (req, res) => {
     firstName = null,
     lastName = null
   } = req.body;
-
-  if (!email || !password || !firstName || !lastName) {
-    throw new InvalidCredentialsError();
-  }
 
   const user = await services.findOrCreateUser(req.body);
   const token = await services.createUserToken(user.id);
