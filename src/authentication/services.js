@@ -39,7 +39,11 @@ export const createUserToken = (userId) => {
     exp: now + MILLISECONDS_IN_HOUR,
     userId
   };
-  return jwt.sign(payload, process.env.SECRET_KEY);
+  return new Promise((resolve, reject) => {
+    jwt.sign(payload, process.env.SECRET_KEY, (error, token) =>
+      error === null ? resolve(token) : reject(error)
+    );
+  });
 };
 
 /**
