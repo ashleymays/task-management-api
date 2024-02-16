@@ -11,7 +11,6 @@ const isExpired = (token) => {
   return Date.now() > tokenExpirationTime;
 };
 
-
 /**
  * Checks that a user is authenticated.
  *

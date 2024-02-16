@@ -9,8 +9,8 @@ import { prisma } from 'api/shared/database';
  * @example
  * const user = await getUserByEmail('example@gmail.com');
  *
- * @param { string } email
- * @returns { Promise<Prisma.user> }
+ * @param {string} email
+ * @returns {Promise<Prisma.user>}
  */
 export const getUserByEmail = (email) => {
   return prisma.user.findUnique({
@@ -28,11 +28,8 @@ export const getUserByEmail = (email) => {
 /**
  * Creates a JWT for authorizing requests.
  *
- * @example
- * const token = createUserToken(userId);
- *
- * @param { string } userId
- * @returns { Promise<string> }
+ * @param {string} userId
+ * @returns {Promise<string>}
  */
 export const createUserToken = (userId) => {
   const now = Date.now();
@@ -52,9 +49,9 @@ export const createUserToken = (userId) => {
  * @example
  * const isMatch = await isCorrectPassword(inputtedPassword, hashedPassword);
  *
- * @param { string } inputtedPassword
- * @param { string } hashedPassword
- * @returns { Promise<boolean> }
+ * @param {string} inputtedPassword
+ * @param {string} hashedPassword
+ * @returns {Promise<boolean>}
  */
 export const isCorrectPassword = (inputtedPassword, hashedPassword) => {
   return bcrypt.compare(inputtedPassword, hashedPassword);
@@ -72,12 +69,12 @@ export const isCorrectPassword = (inputtedPassword, hashedPassword) => {
     lastName: 'lastName'
    });
  *
- * @param { Object } user
- * @param { string } user.password
- * @param { string } user.email
- * @param { string } user.firstName
- * @param { string } user.lastName
- * @returns { Promise<Prisma.user> }
+ * @param {object} user
+ * @param {string} user.password
+ * @param {string} user.email
+ * @param {string} user.firstName
+ * @param {string} user.lastName
+ * @returns {Promise<Prisma.user>}
  */
 export const findOrCreateUser = (() => {
   const getHashedPassword = (password) => {
@@ -111,8 +108,8 @@ export const findOrCreateUser = (() => {
  * Returns the user without the sensitive information
  * that should not be exposed to the client.
  *
- * @param { object } user
- * @returns { object }
+ * @param {object} user
+ * @returns {object}
  */
 export const getUserWithoutSensitiveData = (user) => {
   const { id, password, ...userWithoutSensitiveData } = user;
