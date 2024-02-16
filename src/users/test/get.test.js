@@ -2,29 +2,64 @@ import { request, expect, testUser } from 'api/test/setup';
 import { STATUS_CODES } from 'api/shared/constants';
 import { app } from 'api/index';
 
-export const getUserDataForCorrectCredentials = (done) => {
+let authorizationHeader;
+
+export const _loginBeforeTests = (done) => {
   request(app)
-    .post('/users/me')
+    .post('/auth/login')
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
     .send({
-      email: 'test-email@email.com',
-      password: 'test-password'
+      email: testUser.email,
+      password: testUser.password
     })
     .end((error, response) => {
       expect(error).to.be.null;
+      authorizationHeader = response.headers.authorization;
+      done();
+    });
+};
+
+export const getUserDataForCorrectCredentials = (done) => {
+  request(app)
+    .get('/users/me')
+    .set('Content-Type', 'application/json')
+    .set('Accept', 'application/json')
+    .set('Authorization', authorizationHeader)
+    .end((error, response) => {
+      expect(error).to.be.null;
       expect(response._body).to.be.an('object');
-      expect(response._body).to.have.property('email', 'test-email@email.com');
-      expect(response._body).to.have.property('firstName', 'test-firstName');
-      expect(response._body).to.have.property('lastName', 'test-lastName');
+      expect(response._body).to.have.property('email', testUser.email);
+      expect(response._body).to.have.property('firstName', testUser.firstName);
+      expect(response._body).to.have.property('lastName', testUser.lastName);
       expect(response._body).to.not.have.property('id');
       expect(response._body).to.not.have.property('password');
       done();
     });
 };
 
-export const jsonForCorrectCredentials = (done) => {};
+export const jsonForCorrectCredentials = (done) => {
+  request(app)
+    .get('/users/me')
+    .set('Content-Type', 'application/json')
+    .set('Accept', 'application/json')
+    .set('Authorization', authorizationHeader)
+    .end((error, response) => {
+      expect(error).to.be.null;
+      expect(response).to.be.json;
+      done();
+    });
+};
 
-export const okStatusForCorrectCredentials = (done) => {};
-
-export const authHeaderForCorrectCredentials = (done) => {};
+export const okStatusForCorrectCredentials = (done) => {
+  request(app)
+    .get('/users/me')
+    .set('Content-Type', 'application/json')
+    .set('Accept', 'application/json')
+    .set('Authorization', authorizationHeader)
+    .end((error, response) => {
+      expect(error).to.be.null;
+      expect(response).to.have.status(STATUS_CODES.OK);
+      done();
+    });
+};

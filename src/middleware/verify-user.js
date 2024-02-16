@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import { InvalidCredentialsError, ForbiddenError } from 'api/shared/errors';
 
 /**
+ * Checks that a user is authenticated.
  *
  * @param {RequestHandler} req
  * @param {ResponseHandler} res

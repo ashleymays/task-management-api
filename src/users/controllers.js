@@ -13,3 +13,16 @@ export const getUser = catchErrors(async (req, res) => {
 
   res.status(STATUS_CODES.OK).json(user);
 });
+
+export const updateUser = catchErrors(async (req, res) => {
+  const { userId } = req.user;
+  const updatedUser = await services.updateUserById(userId, req.body);
+  res.status(STATUS_CODES.OK).json(updatedUser);
+});
+
+export const removeUser = catchErrors(async (req, res) => {
+  const { userId } = req.user;
+  await services.removeUserById(userId);
+  res.removeHeader('Authorization');
+  res.sendStatus(STATUS_CODES.NO_CONTENT);
+});
