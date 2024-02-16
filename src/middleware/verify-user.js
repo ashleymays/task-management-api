@@ -1,6 +1,12 @@
 import jwt from 'jsonwebtoken';
 import { InvalidCredentialsError, ForbiddenError } from 'api/shared/errors';
 
+/**
+ *
+ * @param {RequestHandler} req
+ * @param {ResponseHandler} res
+ * @param {NextFunction} next
+ */
 export const verifyUser = (req, res, next) => {
   const authHeader = req.get('Authorization');
 
@@ -19,6 +25,11 @@ export const verifyUser = (req, res, next) => {
   });
 };
 
+/**
+ *
+ * @param {string} token
+ * @returns {boolean}
+ */
 const isExpired = (token) => {
   const tokenExpirationTime = token.exp;
   return Date.now() > tokenExpirationTime;
