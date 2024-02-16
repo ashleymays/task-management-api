@@ -12,7 +12,9 @@ export const getUserById = (id) => {
       firstName: true,
       lastName: true
     },
-    where: { id }
+    where: {
+      id
+    }
   });
 };
 
