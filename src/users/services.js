@@ -21,10 +21,16 @@ export const findUserById = (id) => {
 /**
  *
  * @param {string} id
- * @param {Prisma.user} data
+ * @param {Prisma.user} userData
  * @returns {Promise<Prisma.user>}
  */
-export const updateUserById = (id, data) => {
+export const updateUserById = (id, userData) => {
+  const {
+    id = null,
+    creationDate = null,
+    modificationDate = null,
+    ...data
+  } = userData;
   return prisma.user.update({
     select: {
       email: true,

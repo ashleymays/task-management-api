@@ -27,7 +27,6 @@ export const sendNoBodyInResponse = (done) => {
 };
 
 export const unauthorizedErrorForProtectedRoute = (done) => {
-  
   // Log out, then try to access the user's data.
   request(app)
     .delete('/auth/logout')
