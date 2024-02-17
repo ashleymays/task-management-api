@@ -93,7 +93,6 @@ export const updateProjectById = (projectId, userId, projectData) => {
       userId
     },
     update: {
-      userId,
       ...data
     }
   });
