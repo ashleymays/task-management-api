@@ -1,6 +1,6 @@
-import { authRouter } from 'api/authentication';
-import { userRouter } from 'api/users';
-import { projectRouter } from 'api/projects';
+import { authRouter } from 'api/components/authentication';
+import { userRouter } from 'api/components/users';
+import { projectRouter } from 'api/components/projects';
 import { verifyUser } from 'api/middleware/verify-user';
 
 export const attachRoutes = (app) => {
