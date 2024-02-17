@@ -5,14 +5,14 @@ import { verifyUser } from 'api/middleware/verify-user';
 
 export const attachRoutes = (app) => {
   attachPublicRoutes(app);
-  attachPrivateRoutes(app);
+  attachProtectedRoutes(app);
 };
 
 const attachPublicRoutes = (app) => {
   app.use('/auth', authRouter);
 };
 
-const attachPrivateRoutes = (app) => {
+const attachProtectedRoutes = (app) => {
   app.use(verifyUser);
   app.use('/users', userRouter);
   app.use('/projects', projectRouter);
