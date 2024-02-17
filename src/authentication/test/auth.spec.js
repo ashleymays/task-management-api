@@ -54,8 +54,8 @@ describe('Auth', () => {
     it('should send No Content status', logoutTests.sendNoContentStatus);
     it('should send no body in the response', logoutTests.sendNoBodyInResponse);
     it(
-      'should remove the authorization header from the response',
-      logoutTests.removeAuthHeaderInResponse
+      'should throw an Unauthorized error when trying to access a protected route',
+      logoutTests.unauthorizedErrorForProtectedRoute
     );
   });
 });

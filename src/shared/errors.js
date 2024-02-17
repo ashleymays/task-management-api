@@ -18,12 +18,12 @@ export class InvalidCredentialsError extends Error {
   }
 }
 
-export class ForbiddenError extends Error {
+export class UnauthorizedError extends Error {
   constructor(message) {
     super();
     this.message =
       message || 'Sorry, you are not authorized to access this information.';
     this.name = 'ForbiddenError';
-    this.statusCode = STATUS_CODES.FORBIDDEN;
+    this.statusCode = STATUS_CODES.UNAUTHORIZED;
   }
 }

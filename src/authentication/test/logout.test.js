@@ -26,14 +26,23 @@ export const sendNoBodyInResponse = (done) => {
     });
 };
 
-export const removeAuthHeaderInResponse = (done) => {
+export const unauthorizedErrorForProtectedRoute = (done) => {
+  // log out, then try to access the user's data
   request(app)
     .delete('/auth/logout')
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
     .end((error, response) => {
       expect(error).to.be.null;
-      expect(response.headers).to.not.have.property('authorization');
+      expect(response).to.not.have.property('_body');
+    });
+  request(app)
+    .get('/user/me')
+    .set('Content-Type', 'application/json')
+    .set('Accept', 'application/json')
+    .end((error, response) => {
+      expect(error).to.be.null;
+      expect(response).to.have.status(STATUS_CODES.UNAUTHORIZED);
       done();
     });
 };

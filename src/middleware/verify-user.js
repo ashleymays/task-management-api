@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { InvalidCredentialsError, ForbiddenError } from 'api/shared/errors';
+import { UnauthorizedError } from 'api/shared/errors';
 
 /**
  *
@@ -22,14 +22,14 @@ export const verifyUser = (req, res, next) => {
   const authHeader = req.get('Authorization');
 
   if (!authHeader) {
-    throw new InvalidCredentialsError();
+    throw new UnauthorizedError();
   }
 
   const token = authHeader.split('Bearer ')[1];
 
   jwt.verify(token, process.env.SECRET_KEY, (error, decodedToken) => {
     if (error || isExpired(decodedToken)) {
-      throw new ForbiddenError();
+      throw new UnauthorizedError();
     }
     req.user = { userId: decodedToken.userId };
     next();
