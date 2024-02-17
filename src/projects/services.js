@@ -3,7 +3,7 @@ import { prisma } from 'api/shared/database';
 /**
  *
  * @param {string} userId
- * @param {Prisma.project} data
+ * @param {Prisma.project} projectData
  * @returns {Promise<Prisma.project>}
  */
 export const createProject = (userId, projectData) => {
@@ -75,9 +75,14 @@ export const findProjectById = (projectId, userId) => {
  * @returns {Promise<Prisma.project>}
  */
 export const updateProjectById = (projectId, userId, projectData) => {
-  // We don't want to allow updating these dates manually,
+  // We don't want to allow updating these values manually,
   // so we have to filter them out of the data.
-  const { creationDate = null, modificationDate = null, ...data } = projectData;
+  const {
+    id = null,
+    creationDate = null,
+    modificationDate = null,
+    ...data
+  } = projectData;
 
   return prisma.project.update({
     select: {
@@ -91,9 +96,7 @@ export const updateProjectById = (projectId, userId, projectData) => {
       id: projectId,
       userId
     },
-    update: {
-      ...data
-    }
+    data
   });
 };
 

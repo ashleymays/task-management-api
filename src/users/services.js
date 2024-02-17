@@ -20,11 +20,11 @@ export const findUserById = (id) => {
 
 /**
  *
- * @param {string} id
+ * @param {string} userId
  * @param {Prisma.user} userData
  * @returns {Promise<Prisma.user>}
  */
-export const updateUserById = (id, userData) => {
+export const updateUserById = (userId, userData) => {
   const {
     id = null,
     creationDate = null,
@@ -38,7 +38,7 @@ export const updateUserById = (id, userData) => {
       lastName: true
     },
     where: {
-      id
+      id: userId
     },
     data
   });

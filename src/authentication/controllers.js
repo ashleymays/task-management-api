@@ -38,7 +38,9 @@ export const register = catchErrors(async (req, res) => {
   } = req.body;
 
   if (!email || !password || !firstName || !lastName) {
-    throw new InvalidCredentialsError();
+    throw new InvalidCredentialsError(
+      'One or more required paramaters was not provided. Please ensure that all user data is valid.'
+    );
   }
 
   const user = await services.findOrCreateUser(req.body);
@@ -46,7 +48,7 @@ export const register = catchErrors(async (req, res) => {
 
   res
     .set('Authorization', `Bearer ${token}`)
-    .status(STATUS_CODES.CREATED)
+    .status(STATUS_CODES.OK)
     .json(user);
 });
 
