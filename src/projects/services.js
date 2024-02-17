@@ -74,9 +74,10 @@ export const findProjectById = (projectId, userId) => {
  * @param {Prisma.project} projectData
  * @returns {Promise<Prisma.project>}
  */
-// TODO: FIX
 export const updateProjectById = (projectId, userId, projectData) => {
-  // We don't want to allow updating these dates manually, so we have to filter them out of the data.
+  
+  // We don't want to allow updating these dates manually, 
+  // so we have to filter them out of the data.
   const { creationDate = null, modificationDate = null, ...data } = projectData;
 
   return prisma.project.update({
