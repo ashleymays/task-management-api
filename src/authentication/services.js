@@ -70,11 +70,7 @@ export const isCorrectPassword = (inputtedPassword, hashedPassword) => {
     lastName: 'lastName'
    });
  *
- * @param {object} user
- * @param {string} user.password
- * @param {string} user.email
- * @param {string} user.firstName
- * @param {string} user.lastName
+ * @param {Prisma.user} user
  * @returns {Promise<Prisma.user>}
  */
 export const findOrCreateUser = (() => {
