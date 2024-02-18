@@ -18,7 +18,9 @@ export const findUserByEmail = (email) => {
       lastName: true,
       id: true
     },
-    where: { email }
+    where: {
+      email
+    }
   });
 };
 

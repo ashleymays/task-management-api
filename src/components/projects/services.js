@@ -1,12 +1,30 @@
 import { prisma } from 'api/shared/database';
 
 /**
+ * Removes data from a given project that should not be updated by the client.
+ *
+ * @param {Prisma.project} projectData
+ * @returns {Prisma.project}
+ */
+const removeReadonlyFields = (projectData) => {
+  const {
+    id = null,
+    creationDate = null,
+    modificationDate = null,
+    userId = null,
+    ...data
+  } = projectData;
+  return data;
+};
+
+/**
  *
  * @param {string} userId
  * @param {Prisma.project} projectData
  * @returns {Promise<Prisma.project>}
  */
 export const createProject = (userId, projectData) => {
+  const data = removeReadonlyFields(projectData);
   return prisma.project.create({
     select: {
       name: true,
@@ -17,7 +35,7 @@ export const createProject = (userId, projectData) => {
     },
     data: {
       userId,
-      ...projectData
+      ...data
     }
   });
 };
@@ -75,15 +93,7 @@ export const findProjectById = (projectId, userId) => {
  * @returns {Promise<Prisma.project>}
  */
 export const updateProjectById = (projectId, userId, projectData) => {
-  // We don't want to allow updating these values manually,
-  // so we have to filter them out of the data.
-  const {
-    id = null,
-    creationDate = null,
-    modificationDate = null,
-    ...data
-  } = projectData;
-
+  const data = removeReadonlyFields(projectData);
   return prisma.project.update({
     select: {
       name: true,

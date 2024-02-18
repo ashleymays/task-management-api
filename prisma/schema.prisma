@@ -28,7 +28,7 @@ model project {
   modificationDate DateTime @updatedAt @map("modification_date") @db.Timestamptz(6)
   id               String   @id @default(uuid()) @db.Uuid
   userId           String   @map("user_id") @db.Uuid
-  user             user     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user             user     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   task             task[]
 }
 
@@ -45,9 +45,9 @@ model task {
   userId               String     @map("user_id") @db.Uuid
   projectId            String     @map("project_id") @db.Uuid
   status               String     @db.Uuid
-  project              project    @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "project_id")
+  project              project    @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   task_status          taskStatus @relation(fields: [status], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  user                 user       @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user                 user       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model taskStatus {

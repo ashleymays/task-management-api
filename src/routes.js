@@ -1,6 +1,7 @@
 import { authRouter } from 'api/components/authentication';
 import { userRouter } from 'api/components/users';
 import { projectRouter } from 'api/components/projects';
+import { taskRouter } from 'api/components/tasks';
 import { verifyUser } from 'api/middleware/verify-user';
 
 export const attachRoutes = (app) => {
@@ -16,4 +17,5 @@ const attachProtectedRoutes = (app) => {
   app.use(verifyUser);
   app.use('/users', userRouter);
   app.use('/projects', projectRouter);
+  app.use('/tasks', taskRouter);
 };

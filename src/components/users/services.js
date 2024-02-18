@@ -19,18 +19,29 @@ export const findUserById = (id) => {
 };
 
 /**
+ * Removes data from a given user that should not be updated by the client.
  *
- * @param {string} userId
  * @param {Prisma.user} userData
- * @returns {Promise<Prisma.user>}
+ * @returns {Prisma.user}
  */
-export const updateUserById = (userId, userData) => {
+const removeReadonlyFields = (userData) => {
   const {
     id = null,
     creationDate = null,
     modificationDate = null,
     ...data
   } = userData;
+  return data;
+};
+
+/**
+ *
+ * @param {string} userId
+ * @param {Prisma.user} userData
+ * @returns {Promise<Prisma.user>}
+ */
+export const updateUserById = (userId, userData) => {
+  const data = removeReadonlyFields(userData);
   return prisma.user.update({
     select: {
       email: true,
