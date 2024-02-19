@@ -26,18 +26,6 @@ const removeReadonlyFields = (taskData) => {
 export const createTask = (userId, taskData) => {
   const data = removeReadonlyFields(taskData);
   return prisma.task.create({
-    select: {
-      name: true,
-      description: true,
-      startDate: true,
-      estCompletionDate: true,
-      actualCompletionDate: true,
-      isDelayed: true,
-      projectId: true,
-      creationDate: true,
-      modificationDate: true,
-      id: true
-    },
     data: {
       userId,
       ...data
