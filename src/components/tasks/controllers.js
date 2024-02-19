@@ -1,6 +1,6 @@
 import { STATUS_CODES } from 'api/shared/constants';
 import { catchErrors } from 'api/shared/utils';
-import { InvalidCredentialsError } from 'api/shared/errors';
+import { NotFoundError, InvalidCredentialsError } from 'api/shared/errors';
 import * as services from './services';
 
 export const addTask = catchErrors(async (req, res) => {
@@ -15,4 +15,16 @@ export const addTask = catchErrors(async (req, res) => {
 
   const task = await services.createTask(userId, req.body);
   res.status(STATUS_CODES.CREATED).json(task);
+});
+
+export const getTask = catchErrors(async (req, res) => {
+  const { userId } = req.user;
+  const { taskId } = req.params;
+  const task = await services.findTaskById(taskId, userId);
+
+  if (!task) {
+    throw new NotFoundError();
+  }
+
+  res.status(STATUS_CODES.OK).json(task);
 });

@@ -1,5 +1,29 @@
 import { prisma } from 'api/shared/database';
 
+const selectFields = {
+  name: true,
+  description: true,
+  startDate: true,
+  estCompletionDate: true,
+  actualCompletionDate: true,
+  isDelayed: true,
+  creationDate: true,
+  modificationDate: true,
+  id: true,
+  project: {
+    select: {
+      id: true,
+      name: true
+    }
+  },
+  taskStatus: {
+    select: {
+      id: true,
+      definition: true
+    }
+  }
+};
+
 /**
  * Removes data from a given task that should not be updated by the client.
  *
@@ -26,9 +50,30 @@ const removeReadonlyFields = (taskData) => {
 export const createTask = (userId, taskData) => {
   const data = removeReadonlyFields(taskData);
   return prisma.task.create({
+    select: {
+      ...selectFields
+    },
     data: {
       userId,
       ...data
+    }
+  });
+};
+
+/**
+ *
+ * @param {string} taskId
+ * @param {string} userId
+ * @returns {Promise<Prisma.task>}
+ */
+export const findTaskById = (taskId, userId) => {
+  return prisma.task.findUnique({
+    select: {
+      ...selectFields
+    },
+    where: {
+      id: taskId,
+      userId
     }
   });
 };
