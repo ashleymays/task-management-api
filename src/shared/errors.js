@@ -1,6 +1,6 @@
 /**
  * An exception indicating that a resource was not found.
- * 
+ *
  * @class
  * @example
  * new NotFoundException(); // message is 'Sorry, the resource you requested was not found.'
@@ -17,7 +17,7 @@ export class NotFoundException extends Error {
 
 /**
  * An exception indicating that any provided input was invalid.
- * 
+ *
  * @class
  * @example
  * new InvalidInputException(); // message is 'The value you provided was invalid.'
@@ -34,7 +34,7 @@ export class InvalidInputException extends Error {
 
 /**
  * An exception indicating that a user is unauthorized.
- * 
+ *
  * @class
  * @example
  * new UnauthorizedException(); // message is 'You are not authorized to access this resource.'

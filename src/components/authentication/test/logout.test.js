@@ -1,5 +1,5 @@
+import { StatusCodes } from 'http-status-codes';
 import { request, expect } from 'api/test/setup';
-import { STATUS_CODES } from 'api/shared/constants';
 import { app } from 'api/index';
 
 export const sendNoContentStatus = (done) => {
@@ -9,7 +9,7 @@ export const sendNoContentStatus = (done) => {
     .set('Accept', 'application/json')
     .end((error, response) => {
       expect(error).to.be.null;
-      expect(response).to.have.status(STATUS_CODES.NO_CONTENT);
+      expect(response).to.have.status(StatusCodes.NO_CONTENT);
       done();
     });
 };
@@ -42,7 +42,7 @@ export const unauthorizedErrorForProtectedRoute = (done) => {
     .set('Accept', 'application/json')
     .end((error, response) => {
       expect(error).to.be.null;
-      expect(response).to.have.status(STATUS_CODES.UNAUTHORIZED);
+      expect(response).to.have.status(StatusCodes.UNAUTHORIZED);
       done();
     });
 };

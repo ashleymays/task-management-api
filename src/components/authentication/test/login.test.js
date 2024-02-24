@@ -1,5 +1,5 @@
+import { StatusCodes } from 'http-status-codes';
 import { request, expect, testUser } from 'api/test/setup';
-import { STATUS_CODES } from 'api/shared/constants';
 import { app } from 'api/index';
 
 export const invalidCredentialsErrorForNoEmail = (done) => {

@@ -1,5 +1,5 @@
+import { StatusCodes } from 'http-status-codes';
 import { request, expect, testUser } from 'api/test/setup';
-import { STATUS_CODES } from 'api/shared/constants';
 import { app } from 'api/index';
 
 let authorizationHeader;
@@ -59,7 +59,7 @@ export const okStatusForCorrectCredentials = (done) => {
     .set('Authorization', authorizationHeader)
     .end((error, response) => {
       expect(error).to.be.null;
-      expect(response).to.have.status(STATUS_CODES.OK);
+      expect(response).to.have.status(StatusCodes.OK);
       done();
     });
 };

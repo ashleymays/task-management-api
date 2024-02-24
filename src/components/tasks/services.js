@@ -87,11 +87,11 @@ export const findTaskById = (taskId, userId) => {
  */
 export const findTasks = (userId, projectId) => {
   const where = { userId };
-  
+
   if (projectId) {
     where.projectId = projectId;
   }
-  
+
   return prisma.task.findMany({
     select,
     where,
