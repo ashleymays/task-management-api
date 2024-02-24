@@ -1,12 +1,32 @@
+/** @typedef { import("@prisma/client").user } User */
+
 import { prisma } from 'api/shared/database';
 
 /**
+ * Returns only the user data that the client is allowed to update.
+ * It does not mutate the original object.
+ * Used for creating and updating a user.
  *
+ * @param {User} userData
+ * @returns {User}
+ */
+const getEditableFields = (userData) => {
+  const {
+    id = null,
+    creationDate = null,
+    modificationDate = null,
+    password = null,
+    ...data
+  } = userData;
+  return data;
+};
+
+/**
  * @param {string} id
- * @returns {Promise<Prisma.user>}
+ * @returns {Promise<User>}
  */
 export const findUserById = (id) => {
-  return prisma.user.findUnique({
+  return prisma.user.findUniqueOrThrow({
     select: {
       email: true,
       firstName: true,
@@ -19,29 +39,12 @@ export const findUserById = (id) => {
 };
 
 /**
- * Removes data from a given user that should not be updated by the client.
- *
- * @param {Prisma.user} userData
- * @returns {Prisma.user}
+ * @param {string} id
+ * @param {User} userData
+ * @returns {Promise<User>}
  */
-const removeReadonlyFields = (userData) => {
-  const {
-    id = null,
-    creationDate = null,
-    modificationDate = null,
-    ...data
-  } = userData;
-  return data;
-};
-
-/**
- *
- * @param {string} userId
- * @param {Prisma.user} userData
- * @returns {Promise<Prisma.user>}
- */
-export const updateUserById = (userId, userData) => {
-  const data = removeReadonlyFields(userData);
+export const updateUserById = (id, userData) => {
+  const data = getEditableFields(userData);
   return prisma.user.update({
     select: {
       email: true,
@@ -49,26 +52,16 @@ export const updateUserById = (userId, userData) => {
       lastName: true
     },
     where: {
-      id: userId
+      id
     },
     data
   });
 };
 
 /**
- *
  * @param {string} id
  * @returns {Promise<void>}
  */
-export const removeUserById = (id) => {
-  return prisma.user.delete({
-    select: {
-      email: true,
-      firstName: true,
-      lastName: true
-    },
-    where: {
-      id
-    }
-  });
+export const deleteUserById = (id) => {
+  return prisma.user.delete({ where: { id } });
 };

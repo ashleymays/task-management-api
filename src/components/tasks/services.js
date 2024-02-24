@@ -1,6 +1,12 @@
+/** @typedef { import("@prisma/client").task } Task */
+
 import { prisma } from 'api/shared/database';
 
-const selectFields = {
+/**
+ * The fields that are selected while querying the database.
+ * Extracted for reusability.
+ */
+const select = {
   name: true,
   description: true,
   startDate: true,
@@ -25,35 +31,90 @@ const selectFields = {
 };
 
 /**
- * Removes data from a given task that should not be updated by the client.
- *
- * @param {Prisma.task} taskData
- * @returns {Prisma.task}
+ * @param {Task} taskData
+ * @returns {Task}
  */
-const removeReadonlyFields = (taskData) => {
+const getEditableFields = (taskData) => {
   const {
     id = null,
     creationDate = null,
     modificationDate = null,
     userId = null,
+    project = null,
+    taskStatus = null,
     ...data
   } = taskData;
   return data;
 };
 
 /**
- *
  * @param {string} userId
- * @param {Prisma.task} taskData
- * @returns {Promise<Prisma.task>}
+ * @param {string} projectId
+ * @param {Task} data
+ * @returns {Promise<Task>}
  */
-export const createTask = (userId, taskData) => {
-  const data = removeReadonlyFields(taskData);
+export const createTask = (userId, projectId, taskData) => {
+  const data = getEditableFields(taskData);
   return prisma.task.create({
-    select: {
-      ...selectFields
+    select,
+    data: {
+      userId,
+      projectId,
+      ...data
+    }
+  });
+};
+
+/**
+ * @param {string} taskId
+ * @param {string} userId
+ * @returns {Promise<Task>}
+ */
+export const findTaskById = (taskId, userId) => {
+  return prisma.task.findUniqueOrThrow({
+    select,
+    where: {
+      id: taskId,
+      userId
+    }
+  });
+};
+
+/**
+ * @param {string} userId
+ * @param {string} projectId
+ * @returns {Promise<Task>}
+ */
+export const findTasks = (userId, projectId) => {
+  const where = { userId };
+  
+  if (projectId) {
+    where.projectId = projectId;
+  }
+  
+  return prisma.task.findMany({
+    select,
+    where,
+    orderBy: [{ projectId: 'asc' }, { modificationDate: 'desc' }]
+  });
+};
+
+/**
+ * @param {string} taskId
+ * @param {string} userId
+ * @param {Task} taskData
+ * @returns {Promise<Task>}
+ */
+export const updateTaskById = (taskId, userId, taskData) => {
+  const data = getEditableFields(taskData);
+  return prisma.task.update({
+    select,
+    where: {
+      id: taskId,
+      userId
     },
     data: {
+      id: taskId,
       userId,
       ...data
     }
@@ -61,16 +122,12 @@ export const createTask = (userId, taskData) => {
 };
 
 /**
- *
  * @param {string} taskId
  * @param {string} userId
- * @returns {Promise<Prisma.task>}
+ * @returns {Promise<void>}
  */
-export const findTaskById = (taskId, userId) => {
-  return prisma.task.findUnique({
-    select: {
-      ...selectFields
-    },
+export const deleteTaskById = (taskId, userId) => {
+  return prisma.task.delete({
     where: {
       id: taskId,
       userId

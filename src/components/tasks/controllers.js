@@ -1,30 +1,38 @@
-import { STATUS_CODES } from 'api/shared/constants';
-import { catchErrors } from 'api/shared/utils';
-import { NotFoundError, InvalidCredentialsError } from 'api/shared/errors';
+import { StatusCodes } from 'http-status-codes';
+import { catchErrors } from 'api/shared/catch-errors';
 import * as services from './services';
 
 export const addTask = catchErrors(async (req, res) => {
   const { userId } = req.user;
-  const { projectId, statusId } = req.body;
-
-  if (!projectId || !statusId) {
-    throw new InvalidCredentialsError(
-      'A project ID and task status are required to create a new task.'
-    );
-  }
-
-  const task = await services.createTask(userId, req.body);
-  res.status(STATUS_CODES.CREATED).json(task);
+  const { projectId = '' } = req.query;
+  const task = await services.createTask(userId, projectId, req.body);
+  res.status(StatusCodes.CREATED).json(task);
 });
 
 export const getTask = catchErrors(async (req, res) => {
   const { userId } = req.user;
   const { taskId } = req.params;
   const task = await services.findTaskById(taskId, userId);
+  res.status(StatusCodes.OK).json(task);
+});
 
-  if (!task) {
-    throw new NotFoundError();
-  }
+export const getTasks = catchErrors(async (req, res) => {
+  const { userId } = req.user;
+  const { projectId = '' } = req.query;
+  const tasks = await services.findTasks(userId, projectId);
+  res.status(StatusCodes.OK).json(tasks);
+});
 
-  res.status(STATUS_CODES.OK).json(task);
+export const updateTask = catchErrors(async (req, res) => {
+  const { userId } = req.user;
+  const { taskId } = req.params;
+  const task = await services.updateTaskById(taskId, userId, req.body);
+  res.status(StatusCodes.OK).json(task);
+});
+
+export const deleteTask = catchErrors(async (req, res) => {
+  const { userId } = req.user;
+  const { taskId } = req.params;
+  await services.deleteTaskById(taskId, userId);
+  res.sendStatus(StatusCodes.NO_CONTENT);
 });

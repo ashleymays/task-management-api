@@ -1,8 +1,10 @@
-import { authRouter } from 'api/components/authentication';
-import { userRouter } from 'api/components/users';
-import { projectRouter } from 'api/components/projects';
-import { taskRouter } from 'api/components/tasks';
-import { verifyUser } from 'api/middleware/verify-user';
+import {
+  authRouter,
+  userRouter,
+  projectRouter,
+  taskRouter
+} from './components';
+import { checkUserAuthorization } from 'api/middleware/check-user-auth';
 
 export const attachRoutes = (app) => {
   attachPublicRoutes(app);
@@ -14,7 +16,7 @@ const attachPublicRoutes = (app) => {
 };
 
 const attachProtectedRoutes = (app) => {
-  app.use(verifyUser);
+  app.use(checkUserAuthorization);
   app.use('/users', userRouter);
   app.use('/projects', projectRouter);
   app.use('/tasks', taskRouter);

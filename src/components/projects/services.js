@@ -1,6 +1,12 @@
+/** @typedef { import("@prisma/client").project } Project */
+
 import { prisma } from 'api/shared/database';
 
-const selectFields = {
+/**
+ * The fields that are selected while querying the database.
+ * Extracted for reusability.
+ */
+const select = {
   name: true,
   description: true,
   creationDate: true,
@@ -9,12 +15,14 @@ const selectFields = {
 };
 
 /**
- * Removes data from a given project that should not be updated by the client.
+ * Returns only the project data that the client is allowed to update.
+ * It does not mutate the original object.
+ * Used for creating and updating a project.
  *
- * @param {Prisma.project} projectData
- * @returns {Prisma.project}
+ * @param {Project} projectData
+ * @returns {Project}
  */
-const removeReadonlyFields = (projectData) => {
+const getEditableFields = (projectData) => {
   const {
     id = null,
     creationDate = null,
@@ -26,34 +34,12 @@ const removeReadonlyFields = (projectData) => {
 };
 
 /**
- *
  * @param {string} userId
- * @param {Prisma.project} projectData
- * @returns {Promise<Prisma.project>}
- */
-export const createProject = (userId, projectData) => {
-  const data = removeReadonlyFields(projectData);
-  return prisma.project.create({
-    select: {
-      ...selectFields
-    },
-    data: {
-      userId,
-      ...data
-    }
-  });
-};
-
-/**
- *
- * @param {string} userId
- * @returns {Promise<Prisma.project>}
+ * @returns {Promise<Project>}
  */
 export const findProjects = (userId) => {
   return prisma.project.findMany({
-    select: {
-      ...selectFields
-    },
+    select,
     where: {
       userId
     },
@@ -64,16 +50,29 @@ export const findProjects = (userId) => {
 };
 
 /**
- *
+ * @param {string} userId
+ * @param {Project} projectData
+ * @returns {Promise<Project>}
+ */
+export const createProject = (userId, projectData) => {
+  const data = getEditableFields(projectData);
+  return prisma.project.create({
+    select,
+    data: {
+      userId,
+      ...data
+    }
+  });
+};
+
+/**
  * @param {string} projectId
  * @param {string} userId
- * @returns {Promise<Prisma.project>}
+ * @returns {Promise<Project>}
  */
 export const findProjectById = (projectId, userId) => {
-  return prisma.project.findUnique({
-    select: {
-      ...selectFields
-    },
+  return prisma.project.findUniqueOrThrow({
+    select,
     where: {
       id: projectId,
       userId
@@ -82,18 +81,15 @@ export const findProjectById = (projectId, userId) => {
 };
 
 /**
- *
  * @param {string} projectId
  * @param {string} userId
- * @param {Prisma.project} projectData
- * @returns {Promise<Prisma.project>}
+ * @param {Project} projectData
+ * @returns {Promise<Project>}
  */
 export const updateProjectById = (projectId, userId, projectData) => {
-  const data = removeReadonlyFields(projectData);
+  const data = getEditableFields(projectData);
   return prisma.project.update({
-    select: {
-      ...selectFields
-    },
+    select,
     where: {
       id: projectId,
       userId
@@ -103,12 +99,11 @@ export const updateProjectById = (projectId, userId, projectData) => {
 };
 
 /**
- *
  * @param {string} projectId
  * @param {string} userId
  * @returns {Promise<void>}
  */
-export const removeProjectById = (projectId, userId) => {
+export const deleteProjectById = (projectId, userId) => {
   return prisma.project.delete({
     where: {
       id: projectId,

@@ -1,27 +1,21 @@
-import { STATUS_CODES } from 'api/shared/constants';
-import { NotFoundError } from 'api/shared/errors';
-import { catchErrors } from 'api/shared/utils';
+import { StatusCodes } from 'http-status-codes';
+import { catchErrors } from 'api/shared/catch-errors';
 import * as services from './services';
 
 export const getUser = catchErrors(async (req, res) => {
   const { userId } = req.user;
   const user = await services.findUserById(userId);
-
-  if (!user) {
-    throw new NotFoundError();
-  }
-
-  res.status(STATUS_CODES.OK).json(user);
+  res.status(StatusCodes.OK).json(user);
 });
 
 export const updateUser = catchErrors(async (req, res) => {
   const { userId } = req.user;
   const updatedUser = await services.updateUserById(userId, req.body);
-  res.status(STATUS_CODES.OK).json(updatedUser);
+  res.status(StatusCodes.OK).json(updatedUser);
 });
 
 export const removeUser = catchErrors(async (req, res) => {
   const { userId } = req.user;
-  await services.removeUserById(userId);
-  res.sendStatus(STATUS_CODES.NO_CONTENT);
+  await services.deleteUserById(userId);
+  res.sendStatus(StatusCodes.NO_CONTENT);
 });
