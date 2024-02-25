@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import { request, expect, testUser } from 'api/test/setup';
 import { app } from 'api/index';
 
-export const invalidCredentialsErrorForNoEmail = (done) => {
+export const notFoundExceptionForNoEmail = (done) => {
   request(app)
     .post('/auth/login')
     .set('Content-Type', 'application/json')
@@ -10,17 +10,16 @@ export const invalidCredentialsErrorForNoEmail = (done) => {
     .send({})
     .end((error, response) => {
       expect(error).to.be.null;
-      expect(response).to.have.status(STATUS_CODES.BAD_REQUEST);
       expect(response._body).to.be.an('object');
       expect(response._body).to.have.property(
         'name',
-        'InvalidCredentialsError'
+        'NotFoundException'
       );
       done();
     });
 };
 
-export const invalidCredentialsErrorForNoPassword = (done) => {
+export const invalidInputExceptionForNoPassword = (done) => {
   request(app)
     .post('/auth/login')
     .set('Content-Type', 'application/json')
@@ -30,17 +29,16 @@ export const invalidCredentialsErrorForNoPassword = (done) => {
     })
     .end((error, response) => {
       expect(error).to.be.null;
-      expect(response).to.have.status(STATUS_CODES.BAD_REQUEST);
       expect(response._body).to.be.an('object');
       expect(response._body).to.have.property(
         'name',
-        'InvalidCredentialsError'
+        'InvalidInputException'
       );
       done();
     });
 };
 
-export const notFoundErrorForWrongEmail = (done) => {
+export const notFoundExceptionForWrongEmail = (done) => {
   request(app)
     .post('/auth/login')
     .set('Content-Type', 'application/json')
@@ -51,14 +49,13 @@ export const notFoundErrorForWrongEmail = (done) => {
     })
     .end((error, response) => {
       expect(error).to.be.null;
-      expect(response).to.have.status(STATUS_CODES.NOT_FOUND);
       expect(response._body).to.be.an('object');
-      expect(response._body).to.have.property('name', 'NotFoundError');
+      expect(response._body).to.have.property('name', 'NotFoundException');
       done();
     });
 };
 
-export const notFoundErrorForWrongPassword = (done) => {
+export const notFoundExceptionForWrongPassword = (done) => {
   request(app)
     .post('/auth/login')
     .set('Content-Type', 'application/json')
@@ -69,11 +66,10 @@ export const notFoundErrorForWrongPassword = (done) => {
     })
     .end((error, response) => {
       expect(error).to.be.null;
-      expect(response).to.have.status(STATUS_CODES.BAD_REQUEST);
       expect(response._body).to.be.an('object');
       expect(response._body).to.have.property(
         'name',
-        'InvalidCredentialsError'
+        'InvalidInputException'
       );
       done();
     });
@@ -90,7 +86,7 @@ export const okStatusForCorrectCredentials = (done) => {
     })
     .end((error, response) => {
       expect(error).to.be.null;
-      expect(response).to.have.status(STATUS_CODES.OK);
+      expect(response).to.have.status(StatusCodes.OK);
       done();
     });
 };

@@ -6,20 +6,20 @@ import * as logoutTests from './logout.test';
 describe('Auth', () => {
   describe('POST /login', () => {
     it(
-      'should return Invalid Credentials error for no email given',
-      loginTests.invalidCredentialsErrorForNoEmail
+      'should return not found exception for no email given',
+      loginTests.notFoundExceptionForNoEmail
     );
     it(
-      'should return Invalid Credentials error for no password given',
-      loginTests.invalidCredentialsErrorForNoPassword
+      'should return invalid input exception for no password given',
+      loginTests.invalidInputExceptionForNoPassword
     );
     it(
-      'should return Not Found error for incorrect email given',
-      loginTests.notFoundErrorForWrongEmail
+      'should return not found exception for incorrect email given',
+      loginTests.notFoundExceptionForWrongEmail
     );
     it(
-      'should return Invalid Credentials error for incorrect password given',
-      loginTests.notFoundErrorForWrongPassword
+      'should return invalid input exception for incorrect password given',
+      loginTests.notFoundExceptionForWrongPassword
     );
     it(
       'should return OK status for correct credentials given',
@@ -45,8 +45,8 @@ describe('Auth', () => {
 
   describe('POST /register', () => {
     it(
-      'should return Invalid Credentials error for any missing credentials',
-      registerTests.invalidCredentialsErrorForMissingCredentials
+      'should return invalid input exception for any missing required fields',
+      registerTests.invalidInputExceptionForMissingCredentials
     );
   });
 

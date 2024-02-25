@@ -22,6 +22,33 @@ export const findUser = async ({ email = '', password = '' }) => {
 };
 
 /**
+ * @param {string} password
+ * @returns {Promise<string>}
+ */
+const hashPassword = (password) => {
+  const SALT_ROUNDS = 10;
+  return bcrypt.hash(password, SALT_ROUNDS);
+};
+
+/**
+ * Returns only the user data that the client is allowed to update.
+ * It does not mutate the original object.
+ *
+ * @param {User} user
+ * @returns {User}
+ */
+const getEditableFields = (user) => {
+  const {
+    id = null,
+    creationDate = null,
+    modificationDate = null,
+    password = null,
+    ...data
+  } = user;
+  return data;
+};
+
+/**
  * @async
  * @param {User} credentials
  * @returns {Promise<User>}
@@ -44,49 +71,24 @@ export const findOrCreateUser = async (credentials) => {
     }
   });
 
-  const userAlreadyExisted = user.creationDate < now;
+  const isUserNew = user.creationDate >= now;
 
-  if (userAlreadyExisted) {
+  if (isUserNew) {
+    return user;
+  }
+
+  if (credentials.password) {
     const isCorrectPassword = await bcrypt.compare(
       credentials.password,
       user.password
     );
 
-    if (!isCorrectPassword) {
-      throw new InvalidInputException(
-        'A user was found with this email address, but the password that was provided does not match this account.'
-      );
+    if (isCorrectPassword) {
+      return user;
     }
   }
 
-  return user;
-};
-
-/**
- * Returns only the user data that the client is allowed to update.
- * It does not mutate the original object.
- *
- * @param {User} user
- * @returns {User}
- */
-const getEditableFields = (user) => {
-  const {
-    id = null,
-    creationDate = null,
-    modificationDate = null,
-    password = null,
-    ...data
-  } = user;
-  return data;
-};
-
-/**
- * @param {string} password
- * @returns {Promise<string>}
- */
-const hashPassword = (password) => {
-  const SALT_ROUNDS = 10;
-  return bcrypt.hash(password, SALT_ROUNDS);
+  throw new InvalidInputException('Password is invalid.');
 };
 
 /**

@@ -11,7 +11,7 @@ export class NotFoundException extends Error {
     super();
     this.message = message;
     this.name = 'NotFoundException';
-    this.code = '404';
+    this.code = 404;
   }
 }
 
@@ -28,7 +28,7 @@ export class InvalidInputException extends Error {
     super();
     this.message = message;
     this.name = 'InvalidInputException';
-    this.code = '400';
+    this.code = 400;
   }
 }
 
@@ -45,6 +45,24 @@ export class UnauthorizedException extends Error {
     super();
     this.message = message;
     this.name = 'UnauthorizedException';
-    this.code = '401';
+    this.code = 401;
+  }
+}
+
+/**
+ * An exception indicating that there was an unspecified issue.
+ * Should be used sparingly. Prefer a more specific type of exception in most cases.
+ *
+ * @class
+ * @example
+ * new GeneralException(); // message is 'Something went wrong.'
+ * new GeneralException('There was a problem.'); // message is 'There was a problem.'
+ */
+export class GeneralException extends Error {
+  constructor(message = 'Something went wrong.') {
+    super();
+    this.message = message;
+    this.name = 'GeneralException';
+    this.code = 500;
   }
 }
