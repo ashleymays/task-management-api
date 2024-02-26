@@ -21,6 +21,7 @@ export const register = catchErrors(async (req, res) => {
     .json(user);
 });
 
+/** @TODO void the user's auth token at logout */
 export const logout = catchErrors(async (req, res) => {
   req.user = {};
   res.sendStatus(StatusCodes.NO_CONTENT);
