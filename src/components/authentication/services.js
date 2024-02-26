@@ -49,6 +49,23 @@ const getEditableFields = (user) => {
 };
 
 /**
+ *
+ * @param {string} inputtedPassword
+ * @param {string} hashedPassword
+ * @returns {boolean}
+ */
+const isCorrectUserPassword = async (
+  inputtedPassword = '',
+  hashedPassword = ''
+) => {
+  if (!inputtedPassword || !hashedPassword) {
+    return false;
+  }
+  const isMatch = await bcrypt.compare(inputtedPassword, hashedPassword);
+  return isMatch;
+};
+
+/**
  * @async
  * @param {User} credentials
  * @returns {Promise<User>}
@@ -71,21 +88,14 @@ export const findOrCreateUser = async (credentials) => {
     }
   });
 
-  const isUserNew = user.creationDate >= now;
+  const isNewUser = user.creationDate >= now;
+  const isCorrectPasswordForExistingUser = await isCorrectUserPassword(
+    credentials.password,
+    user.password
+  );
 
-  if (isUserNew) {
+  if (isNewUser || isCorrectPasswordForExistingUser) {
     return user;
-  }
-
-  if (credentials.password) {
-    const isCorrectPassword = await bcrypt.compare(
-      credentials.password,
-      user.password
-    );
-
-    if (isCorrectPassword) {
-      return user;
-    }
   }
 
   throw new InvalidInputException('Password is invalid.');
