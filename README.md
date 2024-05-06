@@ -27,15 +27,15 @@ There are some integration tests, but in production-code we would definitely wan
 
 The internal import paths are a bit wonky. I named the package "api" and exported the source folder so I could write paths like
 
-```import { catchErrors } from 'api/shared/catch-errors'```
+`import { catchErrors } from 'api/shared/catch-errors'`
 
 rather than this
 
-```import { catchErrors } from '../shared/catch-errors.js```
+`import { catchErrors } from '../shared/catch-errors.js`
 
 or this
 
-```import { catchErrors } from '#src/shared/catch-errors```.
+`import { catchErrors } from '#src/shared/catch-errors`.
 
 There's no real reason to do it the way I did; I'm just picky.
 
